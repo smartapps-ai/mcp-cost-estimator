@@ -1,0 +1,413 @@
+{
+    "id": "resp_00b134c37b085a620069e9b494a810819bbc00283027c1c0c2",
+    "created_at": 1776923796.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.4-2026-03-05",
+    "object": "response",
+    "output": [
+        {
+            "id": "mcpl_00b134c37b085a620069e9b494dd78819bb17c257036b242ef",
+            "server_label": "unitus_sql_server_mcp",
+            "tools": [
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "parameters": {
+                                "type": "array",
+                                "description": "Schemas to filter by (optional)",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "minItems": 0
+                            }
+                        },
+                        "required": []
+                    },
+                    "name": "list_table",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Lists tables in an MSSQL Database, or list tables in specific schemas"
+                },
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "query": {
+                                "type": "string",
+                                "description": "SQL SELECT query to execute (must start with SELECT and cannot contain destructive operations). Example: SELECT * FROM movies WHERE genre = 'comedy'"
+                            }
+                        },
+                        "required": [
+                            "query"
+                        ]
+                    },
+                    "name": "read_data",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Executes a SELECT query on an MSSQL Database table. The query must start with SELECT and cannot contain any destructive SQL operations for security reasons."
+                },
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "tableName": {
+                                "type": "string",
+                                "description": "Name of the table to describe"
+                            }
+                        },
+                        "required": [
+                            "tableName"
+                        ]
+                    },
+                    "name": "describe_table",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Describes the schema (columns and types) of a specified MSSQL Database table."
+                }
+            ],
+            "type": "mcp_list_tools",
+            "error": null
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b49567e0819bbf2f180baff19444",
+            "summary": [
+                {
+                    "text": "**Analyzing database memberships**\n\nI need to figure out the answer likely found in the database. This means inspecting tables to find memberships and trust accounts that are open. I\u2019ll calculate the percentage of unique open memberships that have at least one open trust account over the unique open memberships. It\u2019s also essential to determine the schema. I might need to list tables that could be relevant to this issue. Let's get started!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b497d204819b99af10829a5b80b4",
+            "arguments": "{\"parameters\":[\"dbo\"]}",
+            "name": "list_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"List tables executed successfully\", \"items\": []}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b497dafc819bb78d27343b0fd699",
+            "summary": [],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b4983ea0819bada90c8429e7c2b8",
+            "arguments": "{\"parameters\":[]}",
+            "name": "list_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"List tables executed successfully\", \"items\": [{\"\": \"dim.Account\"}, {\"\": \"dim.DigitalBankingLoginDate\"}, {\"\": \"dim.DigitalBankingUser\"}, {\"\": \"dim.Membership\"}, {\"\": \"dim.Membership_CurrentAssignedBranch\"}, {\"\": \"fact.DigitalBankingLoginTransaction\"}, {\"\": \"fact.DigitalBankingUserAccountAccessSnapshot\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b49886c8819ba98f54e8519fee5b",
+            "summary": [],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b49a833c819b89f0c47ba54ee03d",
+            "arguments": "{\"tableName\":\"dim.Account\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_Account_key\", \"type\": \"int\"}, {\"name\": \"AccountGUID\", \"type\": \"nvarchar\"}, {\"name\": \"dim_Membership_key\", \"type\": \"int\"}, {\"name\": \"Account_Category\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Type\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Origination_Channel\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Open_Date\", \"type\": \"datetime2\"}, {\"name\": \"Account_Current_Close_Date\", \"type\": \"datetime2\"}, {\"name\": \"Account_Current_Status\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_Phone\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_Email\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_Mail\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_Secure_Messaging\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_SMS\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Has_Charged_Off_Shares_or_Loans\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Is_Expelled\", \"type\": \"nvarchar\"}, {\"name\": \"dss_current_flag\", \"type\": \"nvarchar\"}, {\"name\": \"dss_version\", \"type\": \"int\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b49a9188819bbfe92e50f82f2533",
+            "arguments": "{\"tableName\":\"dim.Membership\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_Membership_key\", \"type\": \"int\"}, {\"name\": \"Membership_Membership_Number\", \"type\": \"nvarchar\"}, {\"name\": \"dim_Membership_CurrentAssignedBranch_key\", \"type\": \"int\"}, {\"name\": \"Membership_Most_Recent_Open_Date\", \"type\": \"datetime2\"}, {\"name\": \"Membership_Most_Recent_Close_Date\", \"type\": \"datetime2\"}, {\"name\": \"Membership_Current_Status\", \"type\": \"nvarchar\"}, {\"name\": \"Membership_Origination_Channel\", \"type\": \"nvarchar\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b49ae188819bb8161cc952ed03fc",
+            "summary": [
+                {
+                    "text": "**Inspecting trust account details**\n\nI need to identify trust accounts, focusing on the Account_Category or Type which likely includes \"Trust.\" My next step will be to look for distinct values in these categories. I should also query the top distinct account categories, types, statuses, and membership statuses to get a clearer picture of what I'm working with. This approach will help me ensure nothing is missed as I analyze the data!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b49d0b94819b8e8379b46c36143d",
+            "arguments": "{\"query\":\"SELECT DISTINCT Account_Category, Account_Type, Account_Current_Status FROM dim.Account ORDER BY Account_Category, Account_Type, Account_Current_Status;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 24 record(s)\", \"data\": [{\"Account_Category\": \"Internal\", \"Account_Type\": \"Unitus Business Membership\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Internal\", \"Account_Type\": \"Unitus Business Membership\", \"Account_Current_Status\": \"Open\"}, {\"Account_Category\": \"Internal\", \"Account_Type\": \"Unitus Consumer Membership\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Internal\", \"Account_Type\": \"Unitus Consumer Membership\", \"Account_Current_Status\": \"Open\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Expelled And/Or Charged Off\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Expelled And/Or Charged Off\", \"Account_Current_Status\": \"Open but Expelled\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Expelled And/Or Charged Off\", \"Account_Current_Status\": \"Open with Charged Off Shares or Loans\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Fraud Alert--be Careful!!!\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Fraud Alert--be Careful!!!\", \"Account_Current_Status\": \"Open\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Fraud Alert--be Careful!!!\", \"Account_Current_Status\": \"Open with Charged Off Shares or Loans\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Internet\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Internet\", \"Account_Current_Status\": \"Open\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Unitus Business Membership\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Unitus Business Membership\", \"Account_Current_Status\": \"Open\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Unitus Consumer Membership\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Unitus Consumer Membership\", \"Account_Current_Status\": \"Open\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Unitus Consumer Membership\", \"Account_Current_Status\": \"Open with Charged Off Shares or Loans\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Unitus Trust Membership\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Membership\", \"Account_Type\": \"Unitus Trust Membership\", \"Account_Current_Status\": \"Open\"}, {\"Account_Category\": \"Purchased Participation\", \"Account_Type\": \"Participation\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Purchased Participation\", \"Account_Type\": \"Participation\", \"Account_Current_Status\": \"Open\"}, {\"Account_Category\": \"Setup-in-Progress\", \"Account_Type\": \"Unitus Business Membership\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Setup-in-Progress\", \"Account_Type\": \"Unitus Consumer Membership\", \"Account_Current_Status\": \"Closed\"}, {\"Account_Category\": \"Setup-in-Progress\", \"Account_Type\": \"Unitus Consumer Membership\", \"Account_Current_Status\": \"Open\"}], \"recordCount\": 24, \"totalRecords\": 24}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b49d11e4819bae29f8835259da75",
+            "summary": [
+                {
+                    "text": "**Evaluating trust account memberships**\n\nI\u2019m figuring out that a likely trust account means there\u2019s at least one open trust account linked to a membership. It seems like Account_Type could be 'Unitus Trust Membership.' I'll need to look for unique open memberships that have at least one open trust account. For clarity, the denominator will be unique open memberships, while the numerator represents those memberships with an open trust account. I think I need to define \"open membership\" as possibly having Membership_Current_Status set to Open. I'll have to inspect distinct statuses too!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b4a027fc819bba282e3f75cc556e",
+            "arguments": "{\"query\":\"SELECT DISTINCT Membership_Current_Status FROM dim.Membership ORDER BY Membership_Current_Status;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 3 record(s)\", \"data\": [{\"Membership_Current_Status\": \"Closed\"}, {\"Membership_Current_Status\": \"Open\"}, {\"Membership_Current_Status\": \"Unknown\"}], \"recordCount\": 3, \"totalRecords\": 3}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b4a0319c819b86b06ef459919962",
+            "summary": [
+                {
+                    "text": "**Verifying current flags**\n\nI need to consider using the dss_current_flag for identifying current dimension rows. The account does have this flag, but I'm not sure about membership since it doesn't have a current flag. It seems like there might be one row per current dimension for each membership. I should verify counts to check for duplicates and inspect if there are multiple versions of account rows. The dss_current_flag likely indicates current status, probably marked as 'Y', and I need distinct values.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b4a31a24819bac2f598314c2e635",
+            "arguments": "{\"query\":\"SELECT DISTINCT dss_current_flag FROM dim.Account;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 1 record(s)\", \"data\": [{\"dss_current_flag\": \"Y\"}], \"recordCount\": 1, \"totalRecords\": 1}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b4a3fe4c819b9980df778d680375",
+            "summary": [
+                {
+                    "text": "**Assessing membership status**\n\nI need to determine the unique count of open memberships alongside those with an open trust account. I'll establish relationships via dim_Membership_key and focus on accounts where the current status is marked as 'Open.' It seems we only consider 'Open' status for trust accounts, which are simply defined. Open memberships should ideally have the status 'Open,' excluding any unknown or closed memberships. Now, I can compute these counts effectively!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b4a8fb8c819bb94a7d3fce7fc8db",
+            "arguments": "{\"query\":\"SELECT \\n    COUNT(DISTINCT CASE WHEN m.Membership_Current_Status = 'Open' THEN m.dim_Membership_key END) AS open_memberships,\\n    COUNT(DISTINCT CASE WHEN m.Membership_Current_Status = 'Open' AND a.Account_Type = 'Unitus Trust Membership' AND a.Account_Current_Status = 'Open' THEN m.dim_Membership_key END) AS open_memberships_with_open_trust,\\n    CAST(100.0 * COUNT(DISTINCT CASE WHEN m.Membership_Current_Status = 'Open' AND a.Account_Type = 'Unitus Trust Membership' AND a.Account_Current_Status = 'Open' THEN m.dim_Membership_key END)\\n         / NULLIF(COUNT(DISTINCT CASE WHEN m.Membership_Current_Status = 'Open' THEN m.dim_Membership_key END), 0) AS decimal(10,2)) AS trust_account_penetration_pct\\nFROM dim.Membership m\\nLEFT JOIN dim.Account a\\n    ON a.dim_Membership_key = m.dim_Membership_key;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": false, \"message\": \"Failed to execute query: Database query execution failed\", \"error\": \"QUERY_EXECUTION_FAILED\"}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b4baf700819baa49853bf4ceeb96",
+            "summary": [
+                {
+                    "text": "**Simplifying schema issues**\n\nI'm wondering if schema names need brackets because using \"select distinct\" worked fine, which is a bit strange. Maybe there's a type casting issue with the \"count distinct\" case? I think it would be better to look for ways to simplify things overall. It's always nice to clarify and streamline the query process for better results and understanding!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b4bd5c18819b9a61999b8846a90f",
+            "arguments": "{\"query\":\"SELECT COUNT(*) AS cnt FROM dim.Membership;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 1 record(s)\", \"data\": [{\"cnt\": 228286}], \"recordCount\": 1, \"totalRecords\": 1}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b4bd6704819ba72a4de8c2c25a65",
+            "summary": [
+                {
+                    "text": "**Considering SQL syntax issues**\n\nI\u2019m thinking about counting distinct cases in SQL Server, and I believe it could work. I need to consider whether I should use an alias or perhaps a decimal cast. It seems like diving into subqueries might be a helpful approach too. I want to ensure that I'm handling this correctly, but I'm curious to see how the syntax will play out with these different techniques! Let's explore the best way to proceed here.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b4bfa518819bb242f39ebdb274c8",
+            "arguments": "{\"query\":\"SELECT \\n  (SELECT COUNT(DISTINCT m.dim_Membership_key) FROM dim.Membership m WHERE m.Membership_Current_Status = 'Open') AS open_memberships,\\n  (SELECT COUNT(DISTINCT m.dim_Membership_key)\\n   FROM dim.Membership m\\n   JOIN dim.Account a ON a.dim_Membership_key = m.dim_Membership_key\\n   WHERE m.Membership_Current_Status = 'Open'\\n     AND a.Account_Type = 'Unitus Trust Membership'\\n     AND a.Account_Current_Status = 'Open') AS open_memberships_with_open_trust;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 1 record(s)\", \"data\": [{\"open_memberships\": 106316, \"open_memberships_with_open_trust\": 1502}], \"recordCount\": 1, \"totalRecords\": 1}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b4bffee4819bad337f96a04af28a",
+            "summary": [
+                {
+                    "text": "**Calculating percentage**\n\nI need to compute a percentage. It\u2019s a straightforward task, but I want to ensure I take care to get it right. I might break it down: what\u2019s the total amount, and what part of that am I interested in? I\u2019ll apply the percentage formula: part over total, multiplied by 100. Let's make sure I do this cleanly so I can deliver an accurate result. Alright, time to get to the math!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_00b134c37b085a620069e9b4c32794819ba512e3b1612b33bd",
+            "arguments": "{\"query\":\"SELECT CAST(100.0 * t.open_memberships_with_open_trust / NULLIF(t.open_memberships,0) AS decimal(10,2)) AS trust_account_penetration_pct\\nFROM (\\n  SELECT \\n    (SELECT COUNT(DISTINCT m.dim_Membership_key) FROM dim.Membership m WHERE m.Membership_Current_Status = 'Open') AS open_memberships,\\n    (SELECT COUNT(DISTINCT m.dim_Membership_key)\\n     FROM dim.Membership m\\n     JOIN dim.Account a ON a.dim_Membership_key = m.dim_Membership_key\\n     WHERE m.Membership_Current_Status = 'Open'\\n       AND a.Account_Type = 'Unitus Trust Membership'\\n       AND a.Account_Current_Status = 'Open') AS open_memberships_with_open_trust\\n) t;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 1 record(s)\", \"data\": [{\"trust_account_penetration_pct\": 1.41}], \"recordCount\": 1, \"totalRecords\": 1}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_00b134c37b085a620069e9b4c33194819bae5b35a38e23650b",
+            "summary": [
+                {
+                    "text": "**Clarifying membership assumptions**\n\nI need to come up with an answer that might clarify assumptions around trust-like types or categories. It's possible that trust accounts are categorized as Membership and Unitus Trust Membership. I wonder if the open memberships denominator should be based on the account table rather than the membership table. The user has defined unique open memberships, so using the membership dimension seems appropriate. I\u2019ll work on crafting something concise that captures the numerator, denominator, and assumptions clearly.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "msg_00b134c37b085a620069e9b4c73b0c819ba7d7736ec16a76ec",
+            "content": [
+                {
+                    "annotations": [],
+                    "text": "Current trust account penetration is **1.41%**.\n\n- **Open memberships:** 106,316\n- **Open memberships with at least one open trust account:** 1,502\n\nI calculated this as:\n\n**1,502 / 106,316 = 1.41%**\n\nAssumption used:\n- **Open membership** = `Membership_Current_Status = 'Open'`\n- **Open trust account** = `Account_Type = 'Unitus Trust Membership'` and `Account_Current_Status = 'Open'`\n\nIf you want, I can also break this out by branch or origination channel.",
+                    "type": "output_text",
+                    "logprobs": []
+                }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+        }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [
+        {
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp",
+            "allowed_tools": null,
+            "authorization": null,
+            "connector_id": null,
+            "defer_loading": null,
+            "headers": null,
+            "require_approval": "never",
+            "server_description": null,
+            "server_url": "https://shivani-sql-server-test.ngrok.app/sse"
+        }
+    ],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1776923847.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": "in_memory",
+    "reasoning": {
+        "effort": "medium",
+        "generate_summary": null,
+        "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+        "format": {
+            "type": "text"
+        },
+        "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+        "input_tokens": 3321,
+        "input_tokens_details": {
+            "cached_tokens": 0
+        },
+        "output_tokens": 1560,
+        "output_tokens_details": {
+            "reasoning_tokens": 590
+        },
+        "total_tokens": 4881
+    },
+    "user": null,
+    "billing": {
+        "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "moderation": null,
+    "presence_penalty": 0.0,
+    "store": true,
+    "Question_ID": 28,
+    "Server": "sql_server",
+    "Question_Text": "What is our current trust account penetration? Account Penetration means percentage of unique open memberships that currently have at least one open trust account."
+}

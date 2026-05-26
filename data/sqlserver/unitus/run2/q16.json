@@ -1,0 +1,314 @@
+{
+    "id": "resp_09f09ecad1c1c9070069e9b0c78c2081999b2166c566351bcb",
+    "created_at": 1776922823.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.4-2026-03-05",
+    "object": "response",
+    "output": [
+        {
+            "id": "mcpl_09f09ecad1c1c9070069e9b0c79e0881999c9551aaaffdb5fd",
+            "server_label": "unitus_sql_server_mcp",
+            "tools": [
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "parameters": {
+                                "type": "array",
+                                "description": "Schemas to filter by (optional)",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "minItems": 0
+                            }
+                        },
+                        "required": []
+                    },
+                    "name": "list_table",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Lists tables in an MSSQL Database, or list tables in specific schemas"
+                },
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "query": {
+                                "type": "string",
+                                "description": "SQL SELECT query to execute (must start with SELECT and cannot contain destructive operations). Example: SELECT * FROM movies WHERE genre = 'comedy'"
+                            }
+                        },
+                        "required": [
+                            "query"
+                        ]
+                    },
+                    "name": "read_data",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Executes a SELECT query on an MSSQL Database table. The query must start with SELECT and cannot contain any destructive SQL operations for security reasons."
+                },
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "tableName": {
+                                "type": "string",
+                                "description": "Name of the table to describe"
+                            }
+                        },
+                        "required": [
+                            "tableName"
+                        ]
+                    },
+                    "name": "describe_table",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Describes the schema (columns and types) of a specified MSSQL Database table."
+                }
+            ],
+            "type": "mcp_list_tools",
+            "error": null
+        },
+        {
+            "id": "rs_09f09ecad1c1c9070069e9b0c8b2948199912d282ea7b1381c",
+            "summary": [
+                {
+                    "text": "**Inspecting database tables**\n\nI need to query the database to gather the necessary information. My first step will be to inspect the tables. I can use the list_table function for that. This will help me understand what data is available in the database and guide any further actions I need to take. I want to ensure I'm clear on the structure and contents before moving forward. Let's dive into that!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_09f09ecad1c1c9070069e9b0caa1d4819992836acad80cea4c",
+            "arguments": "{\"parameters\":[]}",
+            "name": "list_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"List tables executed successfully\", \"items\": [{\"\": \"dim.Account\"}, {\"\": \"dim.DigitalBankingLoginDate\"}, {\"\": \"dim.DigitalBankingUser\"}, {\"\": \"dim.Membership\"}, {\"\": \"dim.Membership_CurrentAssignedBranch\"}, {\"\": \"fact.DigitalBankingLoginTransaction\"}, {\"\": \"fact.DigitalBankingUserAccountAccessSnapshot\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_09f09ecad1c1c9070069e9b0caaaac81999dc166805713fc70",
+            "summary": [
+                {
+                    "text": "**Understanding schema details**\n\nI need to get a better grasp of the relevant schema regarding Digital Banking Login Transactions and the associated date/user dimensions. It seems important to understand how these elements interact and what facts we might derive from them. Considering the structure can help me clarify what specific information is needed and how best to approach this task in a methodical way. I want to ensure I cover everything effectively.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_09f09ecad1c1c9070069e9b0ccbeec8199a44ba61b7cd60ee7",
+            "arguments": "{\"tableName\":\"fact.DigitalBankingLoginTransaction\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_DigitalBankingLoginDate_key\", \"type\": \"int\"}, {\"name\": \"dim_DigitalBankingLoginTimeOfDay_key\", \"type\": \"int\"}, {\"name\": \"dim_DigitalBankingLoginIndicators_key\", \"type\": \"int\"}, {\"name\": \"dim_DigitalBankingUser_key\", \"type\": \"int\"}, {\"name\": \"dim_IPAddress_key\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginTransaction_Timestamp_BAK\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginTransaction_Count\", \"type\": \"nvarchar\"}, {\"name\": \"dss_create_time\", \"type\": \"nvarchar\"}, {\"name\": \"dss_update_time\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginTransaction_Timestamp\", \"type\": \"datetime\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "mcp_09f09ecad1c1c9070069e9b0cccf0c819994d41e1615e54f08",
+            "arguments": "{\"tableName\":\"dim.DigitalBankingLoginDate\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_DigitalBankingLoginDate_key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Full_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Quarter\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Month\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Week\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_Absolute_Number\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Week_Name\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Week_Name_Abbreviation\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Week_Begin_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Week_Begin_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Week_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_Number_of_Month\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_Number_of_Quarter\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_Number_of_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_Absolute_Number\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Month_Number_of_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Month_Name\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Month_Name_Abbreviation\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Month_Begin_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Month_Begin_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Month_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Month_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_Number_of_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_Absolute_Number\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_Begin_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_Begin_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Year_Number\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Year_Begin_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Year_Begin_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Year_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Year_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Unitus_Holiday_Name\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Business_Days_Left_In_Week\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Business_Days_Left_In_Month\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Business_Days_Left_In_Quarter\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Business_Days_Left_In_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Is_Current_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Current_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Current_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Current_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Previous_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Previous_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Previous_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Previous_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Week_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Business_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_US_Civil_Holiday\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Unitus_Holiday\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Day_of_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Day_of_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Month_or_Is_Previous_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Day_of_Quarter\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Quarter\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Quarter\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Quarter\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Day_of_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_GL_Month_Closed\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Day_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Day_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Same_Day_One_Month_Ago\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Same_Day_One_Month_Ago_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Same_Day_One_Year_Ago\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Same_Day_One_Year_Ago_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Month_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Month_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Quarter_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Quarter_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Year_End_Date\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Year_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_12_Months_End_Date\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Previous_12_Months_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_13_Months_End_Date\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Previous_13_Months_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_yyyymm\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_yyyymmdd\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Monthly_Report_Period\", \"type\": \"nvarchar\"}, {\"name\": \"dss_create_time\", \"type\": \"nvarchar\"}, {\"name\": \"dss_update_time\", \"type\": \"nvarchar\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "mcp_09f09ecad1c1c9070069e9b0cdd9488199bf3ac86bbd7af960",
+            "arguments": "{\"tableName\":\"dim.DigitalBankingUser\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_DigitalBankingUser_key\", \"type\": \"int\"}, {\"name\": \"dim_DigitalBankingUser_LastLogindate_key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingUser_FK_LastLoginDate\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingUser_Platform\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingUser_System_Id\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingUser_Current_Status\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingUser_Purged_From_Source_System\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingUser_Type\", \"type\": \"nvarchar\"}, {\"name\": \"dss_current_flag\", \"type\": \"nvarchar\"}, {\"name\": \"dss_version\", \"type\": \"int\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_09f09ecad1c1c9070069e9b0cf129481999e69a18828105154",
+            "summary": [
+                {
+                    "text": "**Evaluating user login counts**\n\nI need to figure out how many users logged in more than 10 times in June 2025. I\u2019m deciding on how to handle the login transaction count\u2014maybe it should be one row per login with a count column or perhaps aggregate counts. I\u2019ll check a sample, like DigitalBankingLoginTransaction_Count. Maybe I can query to count the rows or sum the counts if they're greater than one. Let\u2019s inspect distinct counts and go through the top rows.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_09f09ecad1c1c9070069e9b0d2b2648199be05d3f842f5552d",
+            "arguments": "{\"query\":\"SELECT TOP 20 DigitalBankingLoginTransaction_Count, COUNT(*) AS rows_count\\nFROM fact.DigitalBankingLoginTransaction\\nGROUP BY DigitalBankingLoginTransaction_Count\\nORDER BY TRY_CAST(DigitalBankingLoginTransaction_Count AS int) DESC\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 1 record(s)\", \"data\": [{\"DigitalBankingLoginTransaction_Count\": \"1\", \"rows_count\": 9191088}], \"recordCount\": 1, \"totalRecords\": 1}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_09f09ecad1c1c9070069e9b0d515f08199b4bae9d6cb3cdd4d",
+            "summary": [
+                {
+                    "text": "**Counting unique users**\n\nI'm focusing on counting the unique users in June. I'll explore the current rows only, considering the SCD current flag in the dim.DigitalBankingUser data. It seems I need to look at the keys, specifically the System_Id, since the dimension keys may have versions. I\u2019ll also check if there are multiple keys for each system ID that have the current flag. Counting the keys per system ID will be essential!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_09f09ecad1c1c9070069e9b0d7fe288199b6f1ecfff09ad1eb",
+            "arguments": "{\"query\":\"SELECT TOP 10 DigitalBankingUser_System_Id, COUNT(*) AS dim_rows, SUM(CASE WHEN dss_current_flag = 'Y' THEN 1 ELSE 0 END) AS current_rows\\nFROM dim.DigitalBankingUser\\nGROUP BY DigitalBankingUser_System_Id\\nHAVING COUNT(*) > 1\\nORDER BY dim_rows DESC, DigitalBankingUser_System_Id\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 0 record(s)\", \"data\": [], \"recordCount\": 0, \"totalRecords\": 0}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_09f09ecad1c1c9070069e9b0d9a5688199a759e3b857bbb7ac",
+            "summary": [
+                {
+                    "text": "**Considering query structure**\n\nI\u2019m thinking about how to tackle the query count for users with more than 10 login rows in June 2025. I could use the date dimension with the format yyyymm = 202506. It might be necessary to perform a join between the fact-date and user tables, but maybe it\u2019s not needed if I\u2019m counting by dim_DigitalBankingUser_key. I want to ensure both counts are identical, so I think using the system ID could work well for this.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_09f09ecad1c1c9070069e9b0dd47fc81999c1d14981081fa45",
+            "arguments": "{\"query\":\"SELECT COUNT(*) AS users_logged_in_more_than_10_times\\nFROM (\\n    SELECT f.dim_DigitalBankingUser_key\\n    FROM fact.DigitalBankingLoginTransaction f\\n    INNER JOIN dim.DigitalBankingLoginDate d\\n        ON f.dim_DigitalBankingLoginDate_key = d.dim_DigitalBankingLoginDate_key\\n    WHERE d.DigitalBankingLoginDate_yyyymm = 202506\\n    GROUP BY f.dim_DigitalBankingUser_key\\n    HAVING COUNT(*) > 10\\n) x;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 1 record(s)\", \"data\": [{\"users_logged_in_more_than_10_times\": 28998}], \"recordCount\": 1, \"totalRecords\": 1}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_09f09ecad1c1c9070069e9b0dec5548199bf613f76a4e19dee",
+            "summary": [
+                {
+                    "text": "**Clarifying digital banking user counts**\n\nI need to answer succinctly regarding unique digital banking users. Maybe I should clarify if the user means more than ten logins and if I need to include that in the total count. It\u2019s also important to ensure there\u2019s no null user data when I count or group by key. I might want to mention specifics, like June 2025, to keep the response relevant.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "msg_09f09ecad1c1c9070069e9b0e166f08199a884c5fec379e041",
+            "content": [
+                {
+                    "annotations": [],
+                    "text": "28,998 users logged in more than 10 times in June 2025.",
+                    "type": "output_text",
+                    "logprobs": []
+                }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+        }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [
+        {
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp",
+            "allowed_tools": null,
+            "authorization": null,
+            "connector_id": null,
+            "defer_loading": null,
+            "headers": null,
+            "require_approval": "never",
+            "server_description": null,
+            "server_url": "https://shivani-sql-server-test.ngrok.app/sse"
+        }
+    ],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1776922850.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": "in_memory",
+    "reasoning": {
+        "effort": "medium",
+        "generate_summary": null,
+        "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+        "format": {
+            "type": "text"
+        },
+        "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+        "input_tokens": 3738,
+        "input_tokens_details": {
+            "cached_tokens": 0
+        },
+        "output_tokens": 786,
+        "output_tokens_details": {
+            "reasoning_tokens": 328
+        },
+        "total_tokens": 4524
+    },
+    "user": null,
+    "billing": {
+        "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "moderation": null,
+    "presence_penalty": 0.0,
+    "store": true,
+    "Question_ID": 16,
+    "Server": "sql_server",
+    "Question_Text": "How many users logged in more than 10 times in june 2025?"
+}

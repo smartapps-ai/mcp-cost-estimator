@@ -1,0 +1,330 @@
+{
+    "id": "resp_0e67f74a07e89afc0069e9e63a69fc81968109fe841683a540",
+    "created_at": 1776936506.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.4-2026-03-05",
+    "object": "response",
+    "output": [
+        {
+            "id": "mcpl_0e67f74a07e89afc0069e9e63ac1508196a6ea74f2a61c0349",
+            "server_label": "unitus_sql_server_mcp",
+            "tools": [
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "parameters": {
+                                "type": "array",
+                                "description": "Schemas to filter by (optional)",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "minItems": 0
+                            }
+                        },
+                        "required": []
+                    },
+                    "name": "list_table",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Lists tables in an MSSQL Database, or list tables in specific schemas"
+                },
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "query": {
+                                "type": "string",
+                                "description": "SQL SELECT query to execute (must start with SELECT and cannot contain destructive operations). Example: SELECT * FROM movies WHERE genre = 'comedy'"
+                            }
+                        },
+                        "required": [
+                            "query"
+                        ]
+                    },
+                    "name": "read_data",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Executes a SELECT query on an MSSQL Database table. The query must start with SELECT and cannot contain any destructive SQL operations for security reasons."
+                },
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "tableName": {
+                                "type": "string",
+                                "description": "Name of the table to describe"
+                            }
+                        },
+                        "required": [
+                            "tableName"
+                        ]
+                    },
+                    "name": "describe_table",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Describes the schema (columns and types) of a specified MSSQL Database table."
+                }
+            ],
+            "type": "mcp_list_tools",
+            "error": null
+        },
+        {
+            "id": "rs_0e67f74a07e89afc0069e9e63c505c819686665e638b4f72df",
+            "summary": [
+                {
+                    "text": "**Considering SQL requirements**\n\nI need to give an answer using SQL. First, I should inspect the tables to see what's available. I'll probably use a command like `list_table` to check out the relevant schema. It's essential to understand the table structures and the relationships between them before proceeding with any specific queries. Let\u2019s ensure I gather the right information to provide a useful answer!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0e67f74a07e89afc0069e9e63e3c48819692683b410fe4f839",
+            "arguments": "{\"parameters\":[]}",
+            "name": "list_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"List tables executed successfully\", \"items\": [{\"\": \"dim.Account\"}, {\"\": \"dim.DigitalBankingLoginDate\"}, {\"\": \"dim.DigitalBankingUser\"}, {\"\": \"dim.Membership\"}, {\"\": \"dim.Membership_CurrentAssignedBranch\"}, {\"\": \"fact.DigitalBankingLoginTransaction\"}, {\"\": \"fact.DigitalBankingUserAccountAccessSnapshot\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0e67f74a07e89afc0069e9e63e49b08196a7ad2528e446a80e",
+            "summary": [
+                {
+                    "text": "**Identifying membership details**\n\nI need to identify memberships created in 2024 that are missing a date of birth (DOB) field. This means I'll need to check the schema for something called dim.Membership. It likely includes a creation date and a DOB field, which I need to verify. Once I have that information, I can narrow down which memberships need attention. Let's dig into the schema to see if that's the case!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0e67f74a07e89afc0069e9e6401d5481969dc56670ddaf1368",
+            "arguments": "{\"tableName\":\"dim.Membership\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_Membership_key\", \"type\": \"int\"}, {\"name\": \"Membership_Membership_Number\", \"type\": \"nvarchar\"}, {\"name\": \"dim_Membership_CurrentAssignedBranch_key\", \"type\": \"int\"}, {\"name\": \"Membership_Most_Recent_Open_Date\", \"type\": \"datetime2\"}, {\"name\": \"Membership_Most_Recent_Close_Date\", \"type\": \"datetime2\"}, {\"name\": \"Membership_Current_Status\", \"type\": \"nvarchar\"}, {\"name\": \"Membership_Origination_Channel\", \"type\": \"nvarchar\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0e67f74a07e89afc0069e9e64027fc81969125771099dcac14",
+            "summary": [],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0e67f74a07e89afc0069e9e641d2bc8196bb007ddb24b95bc3",
+            "arguments": "{\"tableName\":\"dim.Account\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_Account_key\", \"type\": \"int\"}, {\"name\": \"AccountGUID\", \"type\": \"nvarchar\"}, {\"name\": \"dim_Membership_key\", \"type\": \"int\"}, {\"name\": \"Account_Category\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Type\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Origination_Channel\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Open_Date\", \"type\": \"datetime2\"}, {\"name\": \"Account_Current_Close_Date\", \"type\": \"datetime2\"}, {\"name\": \"Account_Current_Status\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_Phone\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_Email\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_Mail\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_Secure_Messaging\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Contact_Preference_Allow_SMS\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Has_Charged_Off_Shares_or_Loans\", \"type\": \"nvarchar\"}, {\"name\": \"Account_Current_Is_Expelled\", \"type\": \"nvarchar\"}, {\"name\": \"dss_current_flag\", \"type\": \"nvarchar\"}, {\"name\": \"dss_version\", \"type\": \"int\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0e67f74a07e89afc0069e9e641e0408196bbcbaf60003ae08b",
+            "summary": [
+                {
+                    "text": "**Investigating date of birth data**\n\nI'm checking to see if there's a date of birth (DOB) field in the available tables. Perhaps it's in the DigitalBankingUser table? I think I might need to query the INFORMATION_SCHEMA to find out. It feels like I should inspect the schemas of all the tables to see if any contain a DOB field. I could use the \"describe\" command on all of them\u2014though maybe that's not completely necessary, but I want to locate it properly.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0e67f74a07e89afc0069e9e64494fc81969bd0ff302b5a60ee",
+            "arguments": "{\"tableName\":\"dim.DigitalBankingUser\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_DigitalBankingUser_key\", \"type\": \"int\"}, {\"name\": \"dim_DigitalBankingUser_LastLogindate_key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingUser_FK_LastLoginDate\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingUser_Platform\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingUser_System_Id\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingUser_Current_Status\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingUser_Purged_From_Source_System\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingUser_Type\", \"type\": \"nvarchar\"}, {\"name\": \"dss_current_flag\", \"type\": \"nvarchar\"}, {\"name\": \"dss_version\", \"type\": \"int\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0e67f74a07e89afc0069e9e644a1548196893666980970ac78",
+            "summary": [
+                {
+                    "text": "**Evaluating database fields**\n\nI\u2019m trying to figure out if there's a \"Date of Birth\" field missing in the memberships created in 2024. It\u2019s possible that the model doesn\u2019t have that field at all. I should also check if the creation date aligns with the most recent open date. Maybe there\u2019s no associated share account if the DOB is missing. I\u2019m thinking of querying the INFORMATION_SCHEMA.COLUMNS to look for any columns related to birth or DOB.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0e67f74a07e89afc0069e9e647f7c08196a3028043a80835d1",
+            "arguments": "{\"query\":\"SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, DATA_TYPE\\nFROM INFORMATION_SCHEMA.COLUMNS\\nWHERE COLUMN_NAME LIKE '%Birth%'\\n   OR COLUMN_NAME LIKE '%DOB%'\\n   OR COLUMN_NAME LIKE '%Date_of_Birth%'\\n   OR COLUMN_NAME LIKE '%Date Of Birth%';\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 0 record(s)\", \"data\": [], \"recordCount\": 0, \"totalRecords\": 0}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0e67f74a07e89afc0069e9e648ba2c8196b7183687aa32d5b3",
+            "summary": [
+                {
+                    "text": "**Exploring date fields**\n\nI\u2019m looking into whether there are any columns for dates of birth since I haven't seen any. It\u2019s possible that the field names are a little unusual. I\u2019ll search specifically for any columns that contain \u201cDate\u201d to find what I need. Figuring out the right columns is important, so I need to get this sorted to ensure clarity in my analysis. Let\u2019s find those date fields!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0e67f74a07e89afc0069e9e64b6ab88196b10126ad9ff1ac1b",
+            "arguments": "{\"query\":\"SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, DATA_TYPE\\nFROM INFORMATION_SCHEMA.COLUMNS\\nWHERE COLUMN_NAME LIKE '%Date%'\\nORDER BY TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 146 record(s)\", \"data\": [{\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"Account\", \"COLUMN_NAME\": \"Account_Current_Close_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"Account\", \"COLUMN_NAME\": \"Account_Current_Open_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Business_Days_Left_In_Month\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Business_Days_Left_In_Quarter\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Business_Days_Left_In_Week\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Business_Days_Left_In_Year\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Day_Absolute_Number\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Day_of_Month\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Day_of_Quarter\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Day_of_Week\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Day_of_Week_Name\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Day_of_Week_Name_Abbreviation\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Day_of_Year\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Full_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Business_Day\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Current_Day\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Current_Month\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Current_Week\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Current_Year\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Month\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Quarter\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Week\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Year\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_First_Day_of_Month\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_First_Day_of_Quarter\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_First_Day_of_Week\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_First_Day_of_Year\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_GL_Month_Closed\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Month\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Quarter\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Week\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Year\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Last_Day_of_Month\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Last_Day_of_Month_or_Is_Previous_Day\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Last_Day_of_Quarter\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Last_Day_of_Week\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Last_Day_of_Year\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Previous_Day\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Previous_Month\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Previous_Week\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Previous_Year\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Unitus_Holiday\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_US_Civil_Holiday\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Is_Week_Day\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Month_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Month_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Month_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Month_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Month_Name\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Month_Name_Abbreviation\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Month_Number_of_Year\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Monthly_Report_Period\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_12_Months_End_Date\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_12_Months_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_13_Months_End_Date\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_13_Months_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_Day_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_Day_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_Month_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_Month_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_Quarter_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_Quarter_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_Year_End_Date\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Previous_Year_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Quarter_Absolute_Number\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Quarter_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Quarter_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Quarter_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Quarter_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Quarter_Number_of_Year\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Same_Day_One_Month_Ago\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Same_Day_One_Month_Ago_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Same_Day_One_Year_Ago\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Same_Day_One_Year_Ago_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Unitus_Holiday_Name\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Week_Absolute_Number\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Week_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Week_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Week_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Week_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Week_Number_of_Month\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Week_Number_of_Quarter\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Week_Number_of_Year\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Year_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Year_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Year_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Year_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_Year_Number\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_yyyymm\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"DigitalBankingLoginDate_yyyymmdd\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"dim_DigitalBankingLoginDate_key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingLoginDate\", \"COLUMN_NAME\": \"dss_update_time\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUser\", \"COLUMN_NAME\": \"DigitalBankingUser_FK_LastLoginDate\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUser\", \"COLUMN_NAME\": \"dim_DigitalBankingUser_LastLogindate_key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Month_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Month_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Month_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Month_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_12_Months_End_Date\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_12_Months_End_Date_Key\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_13_Months_End_Date\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_13_Months_End_Date_Key\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_Month_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_Month_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_Quarter_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_Quarter_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_Year_End_Date\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Previous_Year_End_Date_Key\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Quarter_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Quarter_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Quarter_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Quarter_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Year_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Year_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Year_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"DBUAccountAccessSnapshotMonth_Year_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshotMonth\", \"COLUMN_NAME\": \"dss_update_time\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Month_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Month_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Month_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Month_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_12_Months_End_Date\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_12_Months_End_Date_Key\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_13_Months_End_Date\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_13_Months_End_Date_Key\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_Month_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_Month_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_Quarter_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_Quarter_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_Year_End_Date\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Previous_Year_End_Date_Key\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Quarter_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Quarter_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Quarter_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Quarter_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Year_Begin_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Year_Begin_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Year_End_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"DBUStatusSnapshotMonth_Year_End_Date_Key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshotMonth\", \"COLUMN_NAME\": \"dss_update_time\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"Membership\", \"COLUMN_NAME\": \"Membership_Most_Recent_Close_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"dim\", \"TABLE_NAME\": \"Membership\", \"COLUMN_NAME\": \"Membership_Most_Recent_Open_Date\", \"DATA_TYPE\": \"datetime2\"}, {\"TABLE_SCHEMA\": \"fact\", \"TABLE_NAME\": \"DigitalBankingLoginTransaction\", \"COLUMN_NAME\": \"dim_DigitalBankingLoginDate_key\", \"DATA_TYPE\": \"int\"}, {\"TABLE_SCHEMA\": \"fact\", \"TABLE_NAME\": \"DigitalBankingLoginTransaction\", \"COLUMN_NAME\": \"dss_update_time\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"fact\", \"TABLE_NAME\": \"DigitalBankingUserAccountAccessSnapshot\", \"COLUMN_NAME\": \"dss_update_time\", \"DATA_TYPE\": \"nvarchar\"}, {\"TABLE_SCHEMA\": \"fact\", \"TABLE_NAME\": \"DigitalBankingUserStatusSnapshot\", \"COLUMN_NAME\": \"dss_update_time\", \"DATA_TYPE\": \"nvarchar\"}], \"recordCount\": 146, \"totalRecords\": 146}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0e67f74a07e89afc0069e9e64b759881968221a89cb623e4d4",
+            "summary": [
+                {
+                    "text": "**Exploring membership data**\n\nI'm noticing that there are extra tables not included in the list_table, which is interesting! Perhaps the list_table was omitting something? Since there's no date of birth (DOB) field, I may need to explain that I can't identify records. It seems like the user might want to see memberships created in 2024, even if the DOB field is missing. I should probably run a query for those memberships and note the absence of the DOB column. I\u2019ll also want to provide a count and a sample query.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0e67f74a07e89afc0069e9e64fad908196b20913bd3cc1817d",
+            "arguments": "{\"query\":\"SELECT COUNT(*) AS MembershipsCreatedIn2024\\nFROM dim.Membership\\nWHERE Membership_Most_Recent_Open_Date >= '2024-01-01'\\n  AND Membership_Most_Recent_Open_Date < '2025-01-01';\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 1 record(s)\", \"data\": [{\"MembershipsCreatedIn2024\": 9210}], \"recordCount\": 1, \"totalRecords\": 1}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0e67f74a07e89afc0069e9e65189cc8196a9185325265a7701",
+            "summary": [],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "msg_0e67f74a07e89afc0069e9e65639dc8196b245af604755ffdb",
+            "content": [
+                {
+                    "annotations": [],
+                    "text": "I can\u2019t directly identify those from the currently available schema because there is no exposed **Date of Birth / DOB** column in this database model.\n\nWhat I checked:\n- `dim.Membership` contains:\n  - `Membership_Membership_Number`\n  - `Membership_Most_Recent_Open_Date`\n  - status/channel fields\n- I also searched `INFORMATION_SCHEMA.COLUMNS` for any column names containing:\n  - `Birth`\n  - `DOB`\n  - `Date_of_Birth`\n\nResult:\n- **0 matching columns found**\n\nI did confirm there are memberships created in 2024:\n- **9,210 memberships** in `dim.Membership` with `Membership_Most_Recent_Open_Date` in 2024\n\nSo the answer is:\n\n- **I cannot determine which 2024 memberships are missing Date of Birth from the tables currently available, because no DOB field exists in the exposed schema.**\n\nIf helpful, I can:\n1. give you the list of all 2024-created memberships, or\n2. help locate the correct table if DOB lives in another database/table not currently exposed.",
+                    "type": "output_text",
+                    "logprobs": []
+                }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+        }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [
+        {
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp",
+            "allowed_tools": null,
+            "authorization": null,
+            "connector_id": null,
+            "defer_loading": null,
+            "headers": null,
+            "require_approval": "never",
+            "server_description": null,
+            "server_url": "https://shivani-sql-server-test.ngrok.app/sse"
+        }
+    ],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1776936536.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": "in_memory",
+    "reasoning": {
+        "effort": "medium",
+        "generate_summary": null,
+        "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+        "format": {
+            "type": "text"
+        },
+        "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+        "input_tokens": 8210,
+        "input_tokens_details": {
+            "cached_tokens": 0
+        },
+        "output_tokens": 1119,
+        "output_tokens_details": {
+            "reasoning_tokens": 544
+        },
+        "total_tokens": 9329
+    },
+    "user": null,
+    "billing": {
+        "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "moderation": null,
+    "presence_penalty": 0.0,
+    "store": true,
+    "Question_ID": 25,
+    "Server": "sql_server",
+    "Question_Text": "Identify any memberships created in 2024 that are missing a \"Date of Birth\" field."
+}

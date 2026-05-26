@@ -1,0 +1,542 @@
+{
+    "id": "resp_03b83dd10586ca5000699cec4645fc81978a2d24bfef5b98b4",
+    "object": "response",
+    "created_at": 1771891782,
+    "status": "completed",
+    "background": false,
+    "billing": {
+        "payer": "developer"
+    },
+    "completed_at": 1771891811,
+    "error": null,
+    "frequency_penalty": 0.0,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "model": "gpt-5.2-2025-12-11",
+    "next_response_ids": [],
+    "output": [
+        {
+            "id": "mcpl_03b83dd10586ca5000699cec466cc88197a7892c3048de4fcf",
+            "type": "mcp_list_tools",
+            "server_label": "MotherDuck",
+            "tools": [
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "Execute read-only DuckDB query against MotherDuck databases. For cross-database queries, use fully qualified names: database.schema.table (or database.table for main schema).",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "database": {
+                                "description": "Database name to query (required)",
+                                "type": "string"
+                            },
+                            "sql": {
+                                "description": "SQL query to execute",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "database",
+                            "sql"
+                        ]
+                    },
+                    "name": "query"
+                },
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "List all databases in your MotherDuck account with their names and types.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {}
+                    },
+                    "name": "list_databases"
+                },
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "List all tables and views in a MotherDuck database with their comments.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "database": {
+                                "description": "Database name to list tables from",
+                                "type": "string"
+                            },
+                            "schema": {
+                                "description": "Schema name (optional, defaults to all schemas)",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "database"
+                        ]
+                    },
+                    "name": "list_tables"
+                },
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "List all columns of a table or view with their types and comments.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "table": {
+                                "description": "Table or view name",
+                                "type": "string"
+                            },
+                            "database": {
+                                "description": "Database name",
+                                "type": "string"
+                            },
+                            "schema": {
+                                "description": "Schema name (optional, defaults to 'main')",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "table",
+                            "database"
+                        ]
+                    },
+                    "name": "list_columns"
+                },
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "Search the catalog for databases, schemas, tables, columns, and shares using fuzzy matching. Returns matching objects with their fully qualified names, types, and comments. Useful for discovering available data when you don't know exact names.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "query": {
+                                "description": "Search term to find in object names (supports partial matching, underscores, dots)",
+                                "type": "string"
+                            },
+                            "object_types": {
+                                "description": "Optional filter to limit results to specific object types",
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "enum": [
+                                        "database",
+                                        "schema",
+                                        "table",
+                                        "column",
+                                        "share"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "query"
+                        ]
+                    },
+                    "name": "search_catalog"
+                },
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "Ask a question about DuckDB or MotherDuck. Returns answers from official documentation.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "question": {
+                                "description": "Question about DuckDB or MotherDuck",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "question"
+                        ]
+                    },
+                    "name": "ask_docs_question"
+                },
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "List all database shares that have been shared with you. Returns share names and URLs.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {}
+                    },
+                    "name": "list_shares"
+                },
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "List all dives in MotherDuck. Dives are interactive React data apps that query live data. Returns metadata including current_version (the latest version number, 1-indexed) for each dive. Use read_dive with the optional version parameter to retrieve a specific historical version. Optionally filter by keywords to search in title and description.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "keywords": {
+                                "description": "Optional keywords to filter dives by title or description (case-insensitive, all words must match)",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "name": "list_dives"
+                },
+                {
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Save a new dive to MotherDuck. Returns a URL the user can click to view the dive. Call get_dive_guide first and iterate with the user on the design thoroughly before suggesting to save. Never save without previous confirmation that iteration is done.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "description": "The title of the dive",
+                                "type": "string"
+                            },
+                            "description": {
+                                "description": "A brief description of the dive",
+                                "type": "string"
+                            },
+                            "content": {
+                                "description": "The JSX/React component code for the dive",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "content"
+                        ]
+                    },
+                    "name": "save_dive"
+                },
+                {
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Update an existing dive's title, description, or content. Returns a URL the user can click to view the updated dive. At least one field must be provided.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "description": "The unique identifier (UUID) of the dive to update",
+                                "type": "string"
+                            },
+                            "title": {
+                                "description": "New title for the dive",
+                                "type": "string"
+                            },
+                            "description": {
+                                "description": "New description for the dive",
+                                "type": "string"
+                            },
+                            "content": {
+                                "description": "New JSX/React component code",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "id"
+                        ]
+                    },
+                    "name": "update_dive"
+                },
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "Read a specific dive by ID, including its full JSX/React component code. Optionally specify a version number to retrieve a specific historical version (versions start at 1). If no version is specified, the latest version is returned.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "description": "The unique identifier of the dive to read",
+                                "type": "string"
+                            },
+                            "version": {
+                                "description": "Optional version number to retrieve (1-indexed). If not specified, returns the latest version.",
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 9007199254740991
+                            }
+                        },
+                        "required": [
+                            "id"
+                        ]
+                    },
+                    "name": "read_dive"
+                },
+                {
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Delete a dive by ID. This action is permanent and cannot be undone.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "description": "The unique identifier of the dive to delete",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "id"
+                        ]
+                    },
+                    "name": "delete_dive"
+                },
+                {
+                    "annotations": {
+                        "read_only": true
+                    },
+                    "description": "Load instructions for creating MotherDuck dives. Call this before starting to iterate with the user on artifacts, data visualizations, plots, dashboards, etc.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "client": {
+                                "description": "The client environment requesting the guide. Use 'claude' for Claude web/desktop, 'chatgpt' for ChatGPT, 'claude_code' for Cursor/IDE integrations with local filesystem access, or 'other' for other MCP clients.",
+                                "type": "string",
+                                "enum": [
+                                    "claude",
+                                    "chatgpt",
+                                    "claude_code",
+                                    "other"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "client"
+                        ]
+                    },
+                    "name": "get_dive_guide"
+                },
+                {
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Share the data for a dive with your organization. Creates org-scoped shares for owned databases used in the dive, and updates the dive so others in the organization can view it.",
+                    "input_schema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "diveId": {
+                                "description": "The unique identifier (UUID) of the dive",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "diveId"
+                        ]
+                    },
+                    "name": "share_dive_data"
+                }
+            ]
+        },
+        {
+            "id": "rs_03b83dd10586ca5000699cec47ec44819781b33f4ae54706d5",
+            "type": "reasoning",
+            "summary": [
+                {
+                    "type": "summary_text",
+                    "text": "**Clarifying dataset usage**\n\nI need to clarify the dataset\u2014should I use MotherDuck? It seems like a good option to explore. I\u2019ll search the catalog for shipments to see what\u2019s available. It\u2019s important to use the right tool to inspect the data. This should help me understand the datasets better and ensure I\u2019m working with accurate information. Let's get started on that and see what insights we can find!"
+                }
+            ]
+        },
+        {
+            "id": "mcp_03b83dd10586ca5000699cec4a247081979e66c9752e42d2ba",
+            "type": "mcp_call",
+            "status": "completed",
+            "approval_request_id": null,
+            "arguments": "{}",
+            "error": null,
+            "name": "list_databases",
+            "output": "{\"success\": true, \"databases\": [{\"alias\": \"sample_data\", \"is_attached\": true, \"type\": \"motherduck share\"}, {\"alias\": \"tpch_10\", \"is_attached\": true, \"type\": \"motherduck\"}]}",
+            "server_label": "MotherDuck"
+        },
+        {
+            "id": "rs_03b83dd10586ca5000699cec4b7c408197b2e2aece3382bf97",
+            "type": "reasoning",
+            "summary": [
+                {
+                    "type": "summary_text",
+                    "text": "**Searching for shipment data**\n\nI'm likely using sample data to search for tables related to shipments. It's essential to ensure I'm pulling the right information to get accurate results. I should consider what specific details I'm after, like shipment dates or origin and destination locations, to narrow down my search. Let's clarify my approach and make sure I efficiently access the shipment tables I need to analyze the information correctly!"
+                }
+            ]
+        },
+        {
+            "id": "mcp_03b83dd10586ca5000699cec4da0108197975724f9431c0865",
+            "type": "mcp_call",
+            "status": "completed",
+            "approval_request_id": null,
+            "arguments": "{\"query\":\"ship\", \"object_types\":[\"table\",\"column\"]}",
+            "error": null,
+            "name": "search_catalog",
+            "output": "{\"success\": true, \"query\": \"ship\", \"resultCount\": 1, \"results\": [{\"type\": \"column\", \"name\": \"ShipIt\", \"fullyQualifiedName\": \"sample_data.stackoverflow_survey.survey_results.ShipIt\", \"database\": \"sample_data\", \"schema\": \"stackoverflow_survey\", \"table\": \"survey_results\", \"dataType\": \"VARCHAR\", \"comment\": \"Indicates whether the respondent participates in \\u201cShip It\\u201d\\u2013style rapid release or continuous deployment practices as part of their work or coding activities.\", \"relevanceScore\": 0.95}]}",
+            "server_label": "MotherDuck"
+        },
+        {
+            "id": "rs_03b83dd10586ca5000699cec4e98a48197896a7bd2c223638b",
+            "type": "reasoning",
+            "summary": [
+                {
+                    "type": "summary_text",
+                    "text": "**Evaluating shipping data**\n\nI'm thinking there isn't a clear shipping dataset available, but maybe the TPC-H dataset has relevant information. The lineitem table includes a shipmode that mentions 'AIR'. The question at hand is which Chinese suppliers shipped the most by air. In the TPC-H dataset, I can look for entries with 'CHINA' in the nation field and filter by 'AIR' or 'AIR REG' for shipping mode. I need to decide whether to measure by total quantity or number of orders shipped. I should check the tpch_10 tables for clarity."
+                }
+            ]
+        },
+        {
+            "id": "mcp_03b83dd10586ca5000699cec5389fc819788dd8a318d714f49",
+            "type": "mcp_call",
+            "status": "completed",
+            "approval_request_id": null,
+            "arguments": "{\"database\":\"tpch_10\",\"schema\":\"main\"}",
+            "error": null,
+            "name": "list_tables",
+            "output": "{\"success\": true, \"database\": \"tpch_10\", \"schema\": \"main\", \"tables\": [{\"schema\": \"main\", \"name\": \"customer\", \"type\": \"table\", \"comment\": null}, {\"schema\": \"main\", \"name\": \"lineitem\", \"type\": \"table\", \"comment\": null}, {\"schema\": \"main\", \"name\": \"nation\", \"type\": \"table\", \"comment\": null}, {\"schema\": \"main\", \"name\": \"orders\", \"type\": \"table\", \"comment\": null}, {\"schema\": \"main\", \"name\": \"part\", \"type\": \"table\", \"comment\": null}, {\"schema\": \"main\", \"name\": \"partsupp\", \"type\": \"table\", \"comment\": null}, {\"schema\": \"main\", \"name\": \"region\", \"type\": \"table\", \"comment\": null}, {\"schema\": \"main\", \"name\": \"supplier\", \"type\": \"table\", \"comment\": null}], \"tableCount\": 8, \"viewCount\": 0}",
+            "server_label": "MotherDuck"
+        },
+        {
+            "id": "rs_03b83dd10586ca5000699cec548ca08197b2be194a9ebceb85",
+            "type": "reasoning",
+            "summary": [
+                {
+                    "type": "summary_text",
+                    "text": "**Executing supplier query**\n\nI'm proceeding with the query to join the supplier, nation, and line item via the supplier key. My filter will be set for the nation as \"China\" and for shipping modes as either \"Air\" or \"Air Reg.\" Once I have that data, I'll aggregate the results. Let's run this to see what insights we can gather!"
+                }
+            ]
+        },
+        {
+            "id": "mcp_03b83dd10586ca5000699cec57329081979cd525c16dc055d4",
+            "type": "mcp_call",
+            "status": "completed",
+            "approval_request_id": null,
+            "arguments": "{\"database\":\"tpch_10\",\"sql\":\"SELECT\\n  s.s_suppkey,\\n  s.s_name,\\n  COUNT(*) AS air_lineitems,\\n  SUM(l.l_quantity) AS air_quantity,\\n  SUM(l.l_extendedprice) AS air_extendedprice\\nFROM supplier s\\nJOIN nation n ON n.n_nationkey = s.s_nationkey\\nJOIN lineitem l ON l.l_suppkey = s.s_suppkey\\nWHERE n.n_name = 'CHINA'\\n  AND l.l_shipmode IN ('AIR','AIR REG')\\nGROUP BY 1,2\\nORDER BY air_quantity DESC\\nLIMIT 20;\"}",
+            "error": null,
+            "name": "query",
+            "output": "{\"success\": true, \"columns\": [\"s_suppkey\", \"s_name\", \"air_lineitems\", \"air_quantity\", \"air_extendedprice\"], \"columnTypes\": [\"BIGINT\", \"VARCHAR\", \"BIGINT\", \"DECIMAL(38,2)\", \"DECIMAL(38,2)\"], \"rows\": [[\"77247\", \"Supplier#000077247\", \"109\", \"3186.00\", \"3883410.10\"], [\"77723\", \"Supplier#000077723\", \"106\", \"3182.00\", \"5406789.28\"], [\"93325\", \"Supplier#000093325\", \"107\", \"3104.00\", \"4054529.08\"], [\"47721\", \"Supplier#000047721\", \"114\", \"3074.00\", \"5280666.94\"], [\"50437\", \"Supplier#000050437\", \"108\", \"3050.00\", \"4306692.42\"], [\"11340\", \"Supplier#000011340\", \"104\", \"3029.00\", \"4017934.64\"], [\"16765\", \"Supplier#000016765\", \"111\", \"3022.00\", \"5265581.57\"], [\"63376\", \"Supplier#000063376\", \"102\", \"2993.00\", \"4092666.86\"], [\"77429\", \"Supplier#000077429\", \"106\", \"2990.00\", \"4173706.03\"], [\"8942\", \"Supplier#000008942\", \"105\", \"2989.00\", \"5737359.13\"], [\"523\", \"Supplier#000000523\", \"115\", \"2984.00\", \"4487818.96\"], [\"28985\", \"Supplier#000028985\", \"106\", \"2981.00\", \"5831634.85\"], [\"5569\", \"Supplier#000005569\", \"97\", \"2975.00\", \"4628097.14\"], [\"97382\", \"Supplier#000097382\", \"112\", \"2971.00\", \"4059908.71\"], [\"7082\", \"Supplier#000007082\", \"107\", \"2971.00\", \"3116477.79\"], [\"83284\", \"Supplier#000083284\", \"108\", \"2965.00\", \"3757294.47\"], [\"65318\", \"Supplier#000065318\", \"107\", \"2948.00\", \"3855683.26\"], [\"49674\", \"Supplier#000049674\", \"99\", \"2948.00\", \"4907015.61\"], [\"98784\", \"Supplier#000098784\", \"105\", \"2940.00\", \"5240627.30\"], [\"1732\", \"Supplier#000001732\", \"98\", \"2939.00\", \"4995737.38\"]], \"rowCount\": 20}",
+            "server_label": "MotherDuck"
+        },
+        {
+            "id": "rs_03b83dd10586ca5000699cec595d8c8197a4934c992c48483a",
+            "type": "reasoning",
+            "summary": [
+                {
+                    "type": "summary_text",
+                    "text": "**Calculating shipments by air**\n\nI need to confirm that when I mention \"most by air,\" it might imply counting shipments. I could also consider calculating this by the number of line items or total extended price. It seems wise to provide the top supplier by quantity and also by line items. So, it makes sense to compute the top suppliers based on line items as well. I'll keep these factors in mind as I work on it!"
+                }
+            ]
+        },
+        {
+            "id": "mcp_03b83dd10586ca5000699cec5c0fc481979ac1de0035953ac7",
+            "type": "mcp_call",
+            "status": "completed",
+            "approval_request_id": null,
+            "arguments": "{\"database\":\"tpch_10\",\"sql\":\"WITH air AS (\\n  SELECT s.s_suppkey, s.s_name,\\n         COUNT(*) AS air_lineitems,\\n         SUM(l.l_quantity) AS air_quantity,\\n         SUM(l.l_extendedprice) AS air_extendedprice\\n  FROM supplier s\\n  JOIN nation n ON n.n_nationkey = s.s_nationkey\\n  JOIN lineitem l ON l.l_suppkey = s.s_suppkey\\n  WHERE n.n_name = 'CHINA'\\n    AND l.l_shipmode IN ('AIR','AIR REG')\\n  GROUP BY 1,2\\n)\\nSELECT * FROM air\\nORDER BY air_lineitems DESC, air_quantity DESC\\nLIMIT 10;\"}",
+            "error": null,
+            "name": "query",
+            "output": "{\"success\": true, \"columns\": [\"s_suppkey\", \"s_name\", \"air_lineitems\", \"air_quantity\", \"air_extendedprice\"], \"columnTypes\": [\"BIGINT\", \"VARCHAR\", \"BIGINT\", \"DECIMAL(38,2)\", \"DECIMAL(38,2)\"], \"rows\": [[\"84781\", \"Supplier#000084781\", \"117\", \"2891.00\", \"5070409.42\"], [\"523\", \"Supplier#000000523\", \"115\", \"2984.00\", \"4487818.96\"], [\"47721\", \"Supplier#000047721\", \"114\", \"3074.00\", \"5280666.94\"], [\"97382\", \"Supplier#000097382\", \"112\", \"2971.00\", \"4059908.71\"], [\"40010\", \"Supplier#000040010\", \"112\", \"2925.00\", \"4229068.73\"], [\"17466\", \"Supplier#000017466\", \"112\", \"2886.00\", \"4192105.46\"], [\"90011\", \"Supplier#000090011\", \"112\", \"2791.00\", \"3946505.20\"], [\"84017\", \"Supplier#000084017\", \"112\", \"2544.00\", \"3351909.62\"], [\"16765\", \"Supplier#000016765\", \"111\", \"3022.00\", \"5265581.57\"], [\"59443\", \"Supplier#000059443\", \"111\", \"2933.00\", \"4213673.96\"]], \"rowCount\": 10}",
+            "server_label": "MotherDuck"
+        },
+        {
+            "id": "rs_03b83dd10586ca5000699cec5e301881978be83c84c0abf208",
+            "type": "reasoning",
+            "summary": []
+        },
+        {
+            "id": "msg_03b83dd10586ca5000699cec60647481978b7564c2f6e07aa0",
+            "type": "message",
+            "status": "completed",
+            "content": [
+                {
+                    "type": "output_text",
+                    "annotations": [],
+                    "logprobs": [],
+                    "text": "Using the **tpch_10** dataset (suppliers in nation = **CHINA**) and treating \u201cby air\u201d as `l_shipmode IN ('AIR','AIR REG')`:\n\n### Top Chinese suppliers by **air-shipped quantity**\n| Supplier | Air lineitems | Air quantity | Air extended price |\n|---|---:|---:|---:|\n| Supplier#000077247 | 109 | **3186** | 3,883,410.10 |\n| Supplier#000077723 | 106 | 3182 | 5,406,789.28 |\n| Supplier#000093325 | 107 | 3104 | 4,054,529.08 |\n| Supplier#000047721 | 114 | 3074 | 5,280,666.94 |\n| Supplier#000050437 | 108 | 3050 | 4,306,692.42 |\n\n### If you mean \u201cmost\u201d by **number of air shipments (lineitems)**\nTop is **Supplier#000084781** with **117** air lineitems (air quantity = 2891).\n\nTell me which metric you want (quantity, lineitems/shipments, or $ value) and how many top suppliers you want listed."
+                }
+            ],
+            "role": "assistant"
+        }
+    ],
+    "parallel_tool_calls": true,
+    "presence_penalty": 0.0,
+    "previous_response_id": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+        "effort": "medium",
+        "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "store": true,
+    "temperature": 1.0,
+    "text": {
+        "format": {
+            "type": "text"
+        },
+        "verbosity": "medium"
+    },
+    "tool_choice": "auto",
+    "tools": [
+        {
+            "type": "mcp",
+            "allowed_tools": [
+                "query",
+                "list_databases",
+                "list_tables",
+                "list_columns",
+                "search_catalog",
+                "ask_docs_question",
+                "list_shares",
+                "list_dives",
+                "save_dive",
+                "update_dive",
+                "read_dive",
+                "delete_dive",
+                "get_dive_guide",
+                "share_dive_data"
+            ],
+            "authorization": "<redacted>",
+            "headers": null,
+            "require_approval": "never",
+            "server_description": null,
+            "server_label": "MotherDuck",
+            "server_url": "https://api.motherduck.com/mcp"
+        }
+    ],
+    "top_logprobs": 0,
+    "top_p": 0.98,
+    "truncation": "disabled",
+    "usage": {
+        "input_tokens": 3213,
+        "input_tokens_details": {
+            "cached_tokens": 0
+        },
+        "output_tokens": 1104,
+        "output_tokens_details": {
+            "reasoning_tokens": 425
+        },
+        "total_tokens": 4317
+    },
+    "user": null,
+    "metadata": {},
+    "Question_ID": "q2"
+}

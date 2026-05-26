@@ -1,0 +1,141 @@
+{
+    "id": "resp_03b83dd10586ca5000699cee4046508197b2cc493c2502bbf1",
+    "object": "response",
+    "created_at": 1771892288,
+    "status": "completed",
+    "background": false,
+    "billing": {
+        "payer": "developer"
+    },
+    "completed_at": 1771892306,
+    "error": null,
+    "frequency_penalty": 0.0,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "model": "gpt-5.2-2025-12-11",
+    "next_response_ids": [],
+    "output": [
+        {
+            "id": "rs_03b83dd10586ca5000699cee4129188197877ff7d1351a99f7",
+            "type": "reasoning",
+            "summary": []
+        },
+        {
+            "id": "mcp_03b83dd10586ca5000699cee45bc848197814cd596fee46808",
+            "type": "mcp_call",
+            "status": "completed",
+            "approval_request_id": null,
+            "arguments": "{\"database\":\"tpch_10\",\"sql\":\"SELECT\\n  s.s_suppkey,\\n  s.s_name,\\n  COUNT(*) AS lineitems,\\n  SUM(l.l_extendedprice) AS gross_sales,\\n  SUM(l.l_extendedprice * l.l_discount) AS total_discount_value,\\n  AVG(l.l_discount) AS avg_discount_rate\\nFROM supplier s\\nJOIN nation n ON n.n_nationkey = s.s_nationkey\\nJOIN lineitem l ON l.l_suppkey = s.s_suppkey\\nWHERE n.n_name = 'CHINA'\\nGROUP BY 1,2\\nORDER BY total_discount_value DESC\\nLIMIT 10;\"}",
+            "error": null,
+            "name": "query",
+            "output": "{\"success\": true, \"columns\": [\"s_suppkey\", \"s_name\", \"lineitems\", \"gross_sales\", \"total_discount_value\", \"avg_discount_rate\"], \"columnTypes\": [\"BIGINT\", \"VARCHAR\", \"BIGINT\", \"DECIMAL(38,2)\", \"DECIMAL(38,4)\", \"DOUBLE\"], \"rows\": [[\"37991\", \"Supplier#000037991\", \"646\", \"33182802.45\", \"1770593.9434\", 0.053436532507739935], [\"83983\", \"Supplier#000083983\", \"666\", \"34417265.64\", \"1766581.4035\", 0.05052552552552553], [\"83964\", \"Supplier#000083964\", \"656\", \"33410349.90\", \"1730617.5212\", 0.051280487804878046], [\"33991\", \"Supplier#000033991\", \"641\", \"32242081.52\", \"1702437.2501\", 0.051809672386895475], [\"24983\", \"Supplier#000024983\", \"653\", \"32818815.72\", \"1697725.3323\", 0.05142419601837672], [\"45983\", \"Supplier#000045983\", \"657\", \"33471920.66\", \"1697483.6074\", 0.050076103500761034], [\"18979\", \"Supplier#000018979\", \"666\", \"34478758.82\", \"1693415.1470\", 0.04897897897897898], [\"76941\", \"Supplier#000076941\", \"673\", \"33575732.95\", \"1668849.7240\", 0.04989598811292719], [\"49989\", \"Supplier#000049989\", \"608\", \"31250075.98\", \"1667293.4131\", 0.05246710526315789], [\"26943\", \"Supplier#000026943\", \"655\", \"32737885.67\", \"1666126.9218\", 0.04998473282442748]], \"rowCount\": 10}",
+            "server_label": "MotherDuck"
+        },
+        {
+            "id": "rs_03b83dd10586ca5000699cee47e5c081978dfe10ff5f9e2bc1",
+            "type": "reasoning",
+            "summary": []
+        },
+        {
+            "id": "mcp_03b83dd10586ca5000699cee4b83e88197ac3c0f0d31db8f3c",
+            "type": "mcp_call",
+            "status": "completed",
+            "approval_request_id": null,
+            "arguments": "{\"database\":\"tpch_10\",\"sql\":\"SELECT\\n  s.s_name AS supplier,\\n  COUNT(*) AS lineitems,\\n  ROUND(SUM(l.l_extendedprice * l.l_discount), 2) AS total_discount_value,\\n  ROUND(AVG(l.l_discount)*100, 2) AS avg_discount_pct\\nFROM supplier s\\nJOIN nation n ON n.n_nationkey = s.s_nationkey\\nJOIN lineitem l ON l.l_suppkey = s.s_suppkey\\nWHERE n.n_name = 'CHINA'\\nGROUP BY 1\\nORDER BY total_discount_value DESC\\nLIMIT 10;\"}",
+            "error": null,
+            "name": "query",
+            "output": "{\"success\": true, \"columns\": [\"supplier\", \"lineitems\", \"total_discount_value\", \"avg_discount_pct\"], \"columnTypes\": [\"VARCHAR\", \"BIGINT\", \"DECIMAL(38,2)\", \"DOUBLE\"], \"rows\": [[\"Supplier#000037991\", \"646\", \"1770593.94\", 5.34], [\"Supplier#000083983\", \"666\", \"1766581.40\", 5.05], [\"Supplier#000083964\", \"656\", \"1730617.52\", 5.13], [\"Supplier#000033991\", \"641\", \"1702437.25\", 5.18], [\"Supplier#000024983\", \"653\", \"1697725.33\", 5.14], [\"Supplier#000045983\", \"657\", \"1697483.61\", 5.01], [\"Supplier#000018979\", \"666\", \"1693415.15\", 4.9], [\"Supplier#000076941\", \"673\", \"1668849.72\", 4.99], [\"Supplier#000049989\", \"608\", \"1667293.41\", 5.25], [\"Supplier#000026943\", \"655\", \"1666126.92\", 5]], \"rowCount\": 10}",
+            "server_label": "MotherDuck"
+        },
+        {
+            "id": "rs_03b83dd10586ca5000699cee4d4e008197bed204b5310ec90f",
+            "type": "reasoning",
+            "summary": [
+                {
+                    "type": "summary_text",
+                    "text": "**Preparing final response**\n\nI'm getting ready to craft the final response, which will include a clear mention of the data source and the definition. I think it would be helpful to provide a table for clarity as well. I also want to check in with the user to see if they want the information presented by average discount rate. It feels like covering all bases ensures I'm being thorough and helpful!"
+                }
+            ]
+        },
+        {
+            "id": "msg_03b83dd10586ca5000699cee4f906481978aaa5ef702a75402",
+            "type": "message",
+            "status": "completed",
+            "content": [
+                {
+                    "type": "output_text",
+                    "annotations": [],
+                    "logprobs": [],
+                    "text": "In **tpch_10**, looking at suppliers **located in China** (`nation = 'CHINA'`) and measuring \u201cmost discounts\u201d as the **total discount value**:\n\n`total_discount_value = SUM(l_extendedprice * l_discount)`\n\n### Top Chinese suppliers by total discounts offered\n| Supplier | Lineitems | Total discount value | Avg discount % |\n|---|---:|---:|---:|\n| Supplier#000037991 | 646 | 1,770,593.94 | 5.34 |\n| Supplier#000083983 | 666 | 1,766,581.40 | 5.05 |\n| Supplier#000083964 | 656 | 1,730,617.52 | 5.13 |\n| Supplier#000033991 | 641 | 1,702,437.25 | 5.18 |\n| Supplier#000024983 | 653 | 1,697,725.33 | 5.14 |\n| Supplier#000045983 | 657 | 1,697,483.61 | 5.01 |\n| Supplier#000018979 | 666 | 1,693,415.15 | 4.90 |\n| Supplier#000076941 | 673 | 1,668,849.72 | 4.99 |\n| Supplier#000049989 | 608 | 1,667,293.41 | 5.25 |\n| Supplier#000026943 | 655 | 1,666,126.92 | 5.00 |\n\nIf instead you meant \u201cmost discounts\u201d by **highest average discount rate** (not total $), tell me and I\u2019ll re-rank accordingly."
+                }
+            ],
+            "role": "assistant"
+        }
+    ],
+    "parallel_tool_calls": true,
+    "presence_penalty": 0.0,
+    "previous_response_id": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+        "effort": "medium",
+        "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "store": true,
+    "temperature": 1.0,
+    "text": {
+        "format": {
+            "type": "text"
+        },
+        "verbosity": "medium"
+    },
+    "tool_choice": "auto",
+    "tools": [
+        {
+            "type": "mcp",
+            "allowed_tools": [
+                "query",
+                "list_databases",
+                "list_tables",
+                "list_columns",
+                "search_catalog",
+                "ask_docs_question",
+                "list_shares",
+                "list_dives",
+                "save_dive",
+                "update_dive",
+                "read_dive",
+                "delete_dive",
+                "get_dive_guide",
+                "share_dive_data"
+            ],
+            "authorization": "<redacted>",
+            "headers": null,
+            "require_approval": "never",
+            "server_description": null,
+            "server_label": "MotherDuck",
+            "server_url": "https://api.motherduck.com/mcp"
+        }
+    ],
+    "top_logprobs": 0,
+    "top_p": 0.98,
+    "truncation": "disabled",
+    "usage": {
+        "input_tokens": 7147,
+        "input_tokens_details": {
+            "cached_tokens": 3968
+        },
+        "output_tokens": 1000,
+        "output_tokens_details": {
+            "reasoning_tokens": 332
+        },
+        "total_tokens": 8147
+    },
+    "user": null,
+    "metadata": {},
+    "Question_ID": "q4"
+}

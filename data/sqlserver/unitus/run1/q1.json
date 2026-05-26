@@ -1,0 +1,393 @@
+{
+    "id": "resp_0077eeb519392a7e0069e9dd8a0a488198ab05fb9f87e2f2bd",
+    "created_at": 1776934282.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.4-2026-03-05",
+    "object": "response",
+    "output": [
+        {
+            "id": "mcpl_0077eeb519392a7e0069e9dd8a5078819888eb70e53ba74a32",
+            "server_label": "unitus_sql_server_mcp",
+            "tools": [
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "parameters": {
+                                "type": "array",
+                                "description": "Schemas to filter by (optional)",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "minItems": 0
+                            }
+                        },
+                        "required": []
+                    },
+                    "name": "list_table",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Lists tables in an MSSQL Database, or list tables in specific schemas"
+                },
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "query": {
+                                "type": "string",
+                                "description": "SQL SELECT query to execute (must start with SELECT and cannot contain destructive operations). Example: SELECT * FROM movies WHERE genre = 'comedy'"
+                            }
+                        },
+                        "required": [
+                            "query"
+                        ]
+                    },
+                    "name": "read_data",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Executes a SELECT query on an MSSQL Database table. The query must start with SELECT and cannot contain any destructive SQL operations for security reasons."
+                },
+                {
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "tableName": {
+                                "type": "string",
+                                "description": "Name of the table to describe"
+                            }
+                        },
+                        "required": [
+                            "tableName"
+                        ]
+                    },
+                    "name": "describe_table",
+                    "annotations": {
+                        "read_only": false
+                    },
+                    "description": "Describes the schema (columns and types) of a specified MSSQL Database table."
+                }
+            ],
+            "type": "mcp_list_tools",
+            "error": null
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9dd8bade4819891db54baa7a5db44",
+            "summary": [
+                {
+                    "text": "**Inspecting database schema**\n\nI need to figure out what the user\u2019s question entails and this might require making a query on the database. First, I should inspect the schema to understand the structure better. It\u2019s important to find the relevant tables that pertain to the information I\u2019m looking for. I should create a list of these tables to ensure I cover all necessary aspects and deliver an accurate response.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9dd8dca3c8198811c988d8be76484",
+            "arguments": "{\"parameters\":[]}",
+            "name": "list_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"List tables executed successfully\", \"items\": [{\"\": \"dim.Account\"}, {\"\": \"dim.DigitalBankingLoginDate\"}, {\"\": \"dim.DigitalBankingUser\"}, {\"\": \"dim.Membership\"}, {\"\": \"dim.Membership_CurrentAssignedBranch\"}, {\"\": \"fact.DigitalBankingLoginTransaction\"}, {\"\": \"fact.DigitalBankingUserAccountAccessSnapshot\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9dd8dd7488198846bcaed02a45be2",
+            "summary": [
+                {
+                    "text": "**Considering database schemas**\n\nI need to know more about schemas, especially regarding the DigitalBankingLoginDate, which probably includes information about holidays and workdays. That's interesting since those details can impact usage patterns. I think I should describe the relevant tables connected to this schema. It's crucial to get this right so users understand the relationships involved! I'll dive into finding out more about these specifics. Let\u2019s keep exploring together!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9dd8fcaec8198ae11317a0633f7eb",
+            "arguments": "{\"tableName\":\"fact.DigitalBankingLoginTransaction\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_DigitalBankingLoginDate_key\", \"type\": \"int\"}, {\"name\": \"dim_DigitalBankingLoginTimeOfDay_key\", \"type\": \"int\"}, {\"name\": \"dim_DigitalBankingLoginIndicators_key\", \"type\": \"int\"}, {\"name\": \"dim_DigitalBankingUser_key\", \"type\": \"int\"}, {\"name\": \"dim_IPAddress_key\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginTransaction_Timestamp_BAK\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginTransaction_Count\", \"type\": \"nvarchar\"}, {\"name\": \"dss_create_time\", \"type\": \"nvarchar\"}, {\"name\": \"dss_update_time\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginTransaction_Timestamp\", \"type\": \"datetime\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9dd8fd7548198bc687d4ba52c797f",
+            "arguments": "{\"tableName\":\"dim.DigitalBankingLoginDate\"}",
+            "name": "describe_table",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"columns\": [{\"name\": \"dim_DigitalBankingLoginDate_key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Full_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Quarter\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Month\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Week\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_Absolute_Number\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Week_Name\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Day_of_Week_Name_Abbreviation\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Week_Begin_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Week_Begin_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Week_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_Number_of_Month\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_Number_of_Quarter\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_Number_of_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Week_Absolute_Number\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Month_Number_of_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Month_Name\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Month_Name_Abbreviation\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Month_Begin_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Month_Begin_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Month_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Month_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_Number_of_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_Absolute_Number\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_Begin_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_Begin_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Quarter_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Year_Number\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Year_Begin_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Year_Begin_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Year_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Year_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Unitus_Holiday_Name\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Business_Days_Left_In_Week\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Business_Days_Left_In_Month\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Business_Days_Left_In_Quarter\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Business_Days_Left_In_Year\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Is_Current_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Current_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Current_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Current_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Previous_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Previous_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Previous_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Previous_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Week_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Business_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_US_Civil_Holiday\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Unitus_Holiday\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Day_of_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Week\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Day_of_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Month_or_Is_Previous_Day\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Month\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Day_of_Quarter\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Quarter\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Quarter\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Quarter\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Day_of_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Day_of_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_First_Business_Day_of_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_Last_Business_Day_of_Year\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Is_GL_Month_Closed\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Day_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Day_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Same_Day_One_Month_Ago\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Same_Day_One_Month_Ago_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Same_Day_One_Year_Ago\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Same_Day_One_Year_Ago_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Month_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Month_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Quarter_End_Date\", \"type\": \"datetime2\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Quarter_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Year_End_Date\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Previous_Year_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_12_Months_End_Date\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Previous_12_Months_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Previous_13_Months_End_Date\", \"type\": \"nvarchar\"}, {\"name\": \"DigitalBankingLoginDate_Previous_13_Months_End_Date_Key\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_yyyymm\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_yyyymmdd\", \"type\": \"int\"}, {\"name\": \"DigitalBankingLoginDate_Monthly_Report_Period\", \"type\": \"nvarchar\"}, {\"name\": \"dss_create_time\", \"type\": \"nvarchar\"}, {\"name\": \"dss_update_time\", \"type\": \"nvarchar\"}]}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9dd90b8c8819888791cc32dc9a65d",
+            "summary": [
+                {
+                    "text": "**Evaluating login data**\n\nI need to find out the number of logins on business days versus holidays over the past six months. I could aggregate counts by classification, but I want to ensure that the count field is numeric. It seems like there\u2019s usually one transaction per row, so I might want to count the rows. I\u2019ll also check if I can use sum(TRY_CAST(...)) for data verification. It could be helpful to inspect some samples to determine if the Is_Business_Day field provides Y/N values for holidays. Let's query the recent data!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9dd9474c08198aef79ceb39912b8b",
+            "arguments": "{\"query\":\"SELECT TOP 10 \\n  d.DigitalBankingLoginDate_Full_Date,\\n  d.DigitalBankingLoginDate_Is_Business_Day,\\n  d.DigitalBankingLoginDate_Is_Unitus_Holiday,\\n  d.DigitalBankingLoginDate_Is_US_Civil_Holiday,\\n  d.DigitalBankingLoginDate_Unitus_Holiday_Name,\\n  f.DigitalBankingLoginTransaction_Count\\nFROM fact.DigitalBankingLoginTransaction f\\nJOIN dim.DigitalBankingLoginDate d\\n  ON f.dim_DigitalBankingLoginDate_key = d.dim_DigitalBankingLoginDate_key\\nORDER BY d.DigitalBankingLoginDate_Full_Date DESC;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 10 record(s)\", \"data\": [{\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}, {\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}, {\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}, {\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}, {\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}, {\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}, {\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}, {\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}, {\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}, {\"DigitalBankingLoginDate_Full_Date\": \"2025-11-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Is_Business_Day\": \"TRUE\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Not a holiday\", \"DigitalBankingLoginTransaction_Count\": \"1\"}], \"recordCount\": 10, \"totalRecords\": 10}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9dd9500e481988d27a5df252cb63c",
+            "summary": [
+                {
+                    "text": "**Clarifying data requirements**\n\nI'm noticing that the system date is 2026, but the data only goes to November 2025, which feels a bit strange. I think using the max date available will be safer. Also, I need to classify the data based on business days versus holidays, meaning I might exclude non-holiday weekends. The user seems to want a clear comparison between these two categories, so I should specify that weekends are omitted unless they coincide with holidays.",
+                    "type": "summary_text"
+                },
+                {
+                    "text": "**Determining login aggregates**\n\nI need to aggregate data over the last six months, possibly providing a monthly breakdown too. The request is to show the number of logins on business days versus holidays, so I could present counts by month and category, along with a total. I should establish the timeframe relative to the maximum date available, potentially using a rolling six months including the current partial month. I'll query for monthly counts and check for holiday dates as well.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9dd9e68608198b7a8f44e952556ae",
+            "arguments": "{\"query\":\"WITH max_date AS (\\n    SELECT MAX(CAST(d.DigitalBankingLoginDate_Full_Date AS date)) AS max_full_date\\n    FROM fact.DigitalBankingLoginTransaction f\\n    JOIN dim.DigitalBankingLoginDate d\\n      ON f.dim_DigitalBankingLoginDate_key = d.dim_DigitalBankingLoginDate_key\\n), classified AS (\\n    SELECT\\n        DATEFROMPARTS(YEAR(d.DigitalBankingLoginDate_Full_Date), MONTH(d.DigitalBankingLoginDate_Full_Date), 1) AS month_start,\\n        CASE\\n            WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n              OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n            WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n            ELSE 'Other Non-Business Day'\\n        END AS day_type,\\n        SUM(TRY_CAST(f.DigitalBankingLoginTransaction_Count AS int)) AS logins\\n    FROM fact.DigitalBankingLoginTransaction f\\n    JOIN dim.DigitalBankingLoginDate d\\n      ON f.dim_DigitalBankingLoginDate_key = d.dim_DigitalBankingLoginDate_key\\n    CROSS JOIN max_date md\\n    WHERE CAST(d.DigitalBankingLoginDate_Full_Date AS date) >= DATEADD(MONTH, -5, DATEFROMPARTS(YEAR(md.max_full_date), MONTH(md.max_full_date), 1))\\n      AND CAST(d.DigitalBankingLoginDate_Full_Date AS date) <= md.max_full_date\\n    GROUP BY DATEFROMPARTS(YEAR(d.DigitalBankingLoginDate_Full_Date), MONTH(d.DigitalBankingLoginDate_Full_Date), 1),\\n        CASE\\n            WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n              OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n            WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n            ELSE 'Other Non-Business Day'\\n        END\\n)\\nSELECT CONVERT(varchar(7), month_start, 120) AS [month], day_type, logins\\nFROM classified\\nWHERE day_type IN ('Business Day', 'Holiday')\\nORDER BY month_start, CASE WHEN day_type = 'Business Day' THEN 1 ELSE 2 END;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": false, \"message\": \"Security validation failed: Query must start with SELECT for security reasons\", \"error\": \"SECURITY_VALIDATION_FAILED\"}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9dd9ef6588198bba10d7f1eed1b2d",
+            "summary": [
+                {
+                    "text": "**Evaluating query structure**\n\nI\u2019m considering how to start the SQL query. It seems like the query should begin with SELECT, but I'm wondering if I can use common table expressions (CTEs) with SELECT. Actually, it might be better to avoid using WITH altogether. Maybe I can utilize subqueries instead. It looks like I might want to get the maximum date first to structure the rest of the query properly. There's a bit to think through here!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9dda161548198a856f70647339fd6",
+            "arguments": "{\"query\":\"SELECT MAX(CAST(d.DigitalBankingLoginDate_Full_Date AS date)) AS max_full_date\\nFROM fact.DigitalBankingLoginTransaction f\\nJOIN dim.DigitalBankingLoginDate d\\n  ON f.dim_DigitalBankingLoginDate_key = d.dim_DigitalBankingLoginDate_key;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 1 record(s)\", \"data\": [{\"max_full_date\": \"2025-11-13T00:00:00.000Z\"}], \"recordCount\": 1, \"totalRecords\": 1}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9dda1a0488198bb7a111bf10417d5",
+            "summary": [],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9dda7b47c8198ba18b2ecb61ce768",
+            "arguments": "{\"query\":\"SELECT\\n  CONVERT(varchar(7), DATEFROMPARTS(YEAR(d.DigitalBankingLoginDate_Full_Date), MONTH(d.DigitalBankingLoginDate_Full_Date), 1), 120) AS [month],\\n  CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END AS day_type,\\n  SUM(TRY_CAST(f.DigitalBankingLoginTransaction_Count AS int)) AS logins\\nFROM fact.DigitalBankingLoginTransaction f\\nJOIN dim.DigitalBankingLoginDate d\\n  ON f.dim_DigitalBankingLoginDate_key = d.dim_DigitalBankingLoginDate_key\\nWHERE CAST(d.DigitalBankingLoginDate_Full_Date AS date) >= '2025-06-01'\\n  AND CAST(d.DigitalBankingLoginDate_Full_Date AS date) <= '2025-11-13'\\nGROUP BY\\n  DATEFROMPARTS(YEAR(d.DigitalBankingLoginDate_Full_Date), MONTH(d.DigitalBankingLoginDate_Full_Date), 1),\\n  CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END\\nORDER BY [month], CASE WHEN CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END = 'Business Day' THEN 1 WHEN CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END = 'Holiday' THEN 2 ELSE 3 END;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 17 record(s)\", \"data\": [{\"month\": \"2025-06\", \"day_type\": \"Business Day\", \"logins\": 1058332}, {\"month\": \"2025-06\", \"day_type\": \"Holiday\", \"logins\": 49387}, {\"month\": \"2025-06\", \"day_type\": \"Other Non-Business Day\", \"logins\": 369417}, {\"month\": \"2025-07\", \"day_type\": \"Business Day\", \"logins\": 1183409}, {\"month\": \"2025-07\", \"day_type\": \"Holiday\", \"logins\": 41339}, {\"month\": \"2025-07\", \"day_type\": \"Other Non-Business Day\", \"logins\": 326405}, {\"month\": \"2025-08\", \"day_type\": \"Business Day\", \"logins\": 1139057}, {\"month\": \"2025-08\", \"day_type\": \"Other Non-Business Day\", \"logins\": 421850}, {\"month\": \"2025-09\", \"day_type\": \"Business Day\", \"logins\": 1143846}, {\"month\": \"2025-09\", \"day_type\": \"Holiday\", \"logins\": 49777}, {\"month\": \"2025-09\", \"day_type\": \"Other Non-Business Day\", \"logins\": 337681}, {\"month\": \"2025-10\", \"day_type\": \"Business Day\", \"logins\": 1181433}, {\"month\": \"2025-10\", \"day_type\": \"Holiday\", \"logins\": 50379}, {\"month\": \"2025-10\", \"day_type\": \"Other Non-Business Day\", \"logins\": 343212}, {\"month\": \"2025-11\", \"day_type\": \"Business Day\", \"logins\": 436259}, {\"month\": \"2025-11\", \"day_type\": \"Holiday\", \"logins\": 50633}, {\"month\": \"2025-11\", \"day_type\": \"Other Non-Business Day\", \"logins\": 185489}], \"recordCount\": 17, \"totalRecords\": 17}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9ddaa0354819899fbf322d1a02da7",
+            "summary": [
+                {
+                    "text": "**Calculating totals and ratios**\n\nI'm thinking I need to gather some data across six months. It might be useful to compare totals from business versus holiday spending, and then possibly look at the ratios between the two. Okay, I\u2019m ready to calculate that. I\u2019m curious to see how the numbers will play out and what insights I can draw from the comparison. Let's dig into the specifics and get those figures!",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9ddaf1510819884607624a06a2b09",
+            "arguments": "{\"query\":\"SELECT\\n  CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END AS day_type,\\n  SUM(TRY_CAST(f.DigitalBankingLoginTransaction_Count AS int)) AS logins\\nFROM fact.DigitalBankingLoginTransaction f\\nJOIN dim.DigitalBankingLoginDate d\\n  ON f.dim_DigitalBankingLoginDate_key = d.dim_DigitalBankingLoginDate_key\\nWHERE CAST(d.DigitalBankingLoginDate_Full_Date AS date) >= '2025-06-01'\\n  AND CAST(d.DigitalBankingLoginDate_Full_Date AS date) <= '2025-11-13'\\nGROUP BY CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END\\nORDER BY CASE WHEN CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END = 'Business Day' THEN 1 WHEN CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END = 'Holiday' THEN 2 ELSE 3 END;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 3 record(s)\", \"data\": [{\"day_type\": \"Business Day\", \"logins\": 6142336}, {\"day_type\": \"Holiday\", \"logins\": 241515}, {\"day_type\": \"Other Non-Business Day\", \"logins\": 1984054}], \"recordCount\": 3, \"totalRecords\": 3}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9ddb1910081989aa4d5aa25b6fe0e",
+            "summary": [],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9ddb3b4188198a0014c57707f6ee0",
+            "arguments": "{\"query\":\"SELECT DISTINCT\\n  CAST(d.DigitalBankingLoginDate_Full_Date AS date) AS holiday_date,\\n  d.DigitalBankingLoginDate_Unitus_Holiday_Name,\\n  d.DigitalBankingLoginDate_Is_Unitus_Holiday,\\n  d.DigitalBankingLoginDate_Is_US_Civil_Holiday\\nFROM dim.DigitalBankingLoginDate d\\nWHERE CAST(d.DigitalBankingLoginDate_Full_Date AS date) >= '2025-06-01'\\n  AND CAST(d.DigitalBankingLoginDate_Full_Date AS date) <= '2025-11-13'\\n  AND (d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE' OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE')\\nORDER BY holiday_date;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 5 record(s)\", \"data\": [{\"holiday_date\": \"2025-06-19T00:00:00.000Z\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Juneteenth Day\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"TRUE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"FALSE\"}, {\"holiday_date\": \"2025-07-04T00:00:00.000Z\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Independence Day\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"TRUE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"TRUE\"}, {\"holiday_date\": \"2025-09-01T00:00:00.000Z\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Labor Day\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"TRUE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"TRUE\"}, {\"holiday_date\": \"2025-10-13T00:00:00.000Z\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Indigenous Peoples Day\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"TRUE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"TRUE\"}, {\"holiday_date\": \"2025-11-11T00:00:00.000Z\", \"DigitalBankingLoginDate_Unitus_Holiday_Name\": \"Veterans Day\", \"DigitalBankingLoginDate_Is_Unitus_Holiday\": \"TRUE\", \"DigitalBankingLoginDate_Is_US_Civil_Holiday\": \"TRUE\"}], \"recordCount\": 5, \"totalRecords\": 5}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9ddb4be808198ae9db9d72a2552e5",
+            "summary": [
+                {
+                    "text": "**Considering login counts**\n\nI'm thinking about how to approach the user's request on comparing logins on business days versus holidays. I realize that raw counts might not be directly comparable since there are more business days than holidays. An average per day could be more meaningful. I should probably provide both total counts and daily averages, given that there are fewer holidays. I\u2019ll need to determine the number of business days and holidays in the period to make this clear.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "mcp_0077eeb519392a7e0069e9ddbb5a9c819883e40f298703d76d",
+            "arguments": "{\"query\":\"SELECT\\n  CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END AS day_type,\\n  COUNT(DISTINCT CAST(d.DigitalBankingLoginDate_Full_Date AS date)) AS days_in_period,\\n  SUM(TRY_CAST(f.DigitalBankingLoginTransaction_Count AS int)) AS logins,\\n  CAST(1.0 * SUM(TRY_CAST(f.DigitalBankingLoginTransaction_Count AS int)) / COUNT(DISTINCT CAST(d.DigitalBankingLoginDate_Full_Date AS date)) AS decimal(18,2)) AS avg_logins_per_day\\nFROM fact.DigitalBankingLoginTransaction f\\nJOIN dim.DigitalBankingLoginDate d\\n  ON f.dim_DigitalBankingLoginDate_key = d.dim_DigitalBankingLoginDate_key\\nWHERE CAST(d.DigitalBankingLoginDate_Full_Date AS date) >= '2025-06-01'\\n  AND CAST(d.DigitalBankingLoginDate_Full_Date AS date) <= '2025-11-13'\\nGROUP BY CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END\\nORDER BY CASE WHEN CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END = 'Business Day' THEN 1 WHEN CASE\\n    WHEN d.DigitalBankingLoginDate_Is_Unitus_Holiday = 'TRUE'\\n      OR d.DigitalBankingLoginDate_Is_US_Civil_Holiday = 'TRUE' THEN 'Holiday'\\n    WHEN d.DigitalBankingLoginDate_Is_Business_Day = 'TRUE' THEN 'Business Day'\\n    ELSE 'Other Non-Business Day'\\n  END = 'Holiday' THEN 2 ELSE 3 END;\"}",
+            "name": "read_data",
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp_call",
+            "approval_request_id": null,
+            "error": null,
+            "output": "{\"success\": true, \"message\": \"Query executed successfully. Retrieved 3 record(s)\", \"data\": [{\"day_type\": \"Business Day\", \"days_in_period\": 114, \"logins\": 6142336, \"avg_logins_per_day\": 53880.14}, {\"day_type\": \"Holiday\", \"days_in_period\": 5, \"logins\": 241515, \"avg_logins_per_day\": 48303}, {\"day_type\": \"Other Non-Business Day\", \"days_in_period\": 47, \"logins\": 1984054, \"avg_logins_per_day\": 42213.91}], \"recordCount\": 3, \"totalRecords\": 3}",
+            "status": "completed"
+        },
+        {
+            "id": "rs_0077eeb519392a7e0069e9ddbdcbd08198b94fa590528e81db",
+            "summary": [
+                {
+                    "text": "**Crafting concise summary**\n\nI need to prepare a concise answer based on the last six months, starting from the latest login date of November 13, 2025. I might ask the user if they want to see a chart or if a table will suffice. It seems I should calculate percentages of business versus holiday, with figures of 96.2% business and 3.8% holiday. \n\nOkay, let\u2019s create a table with monthly data while noting that August had no holidays in this period, and exclude weekends from these figures.",
+                    "type": "summary_text"
+                }
+            ],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+        },
+        {
+            "id": "msg_0077eeb519392a7e0069e9ddc699708198812e026ecad971a0",
+            "content": [
+                {
+                    "annotations": [],
+                    "text": "Using the latest available login date in the data (`2025-11-13`), here\u2019s the last 6 months of logins on **business days vs holidays**:\n\n| Month | Business Day Logins | Holiday Logins |\n|---|---:|---:|\n| 2025-06 | 1,058,332 | 49,387 |\n| 2025-07 | 1,183,409 | 41,339 |\n| 2025-08 | 1,139,057 | 0 |\n| 2025-09 | 1,143,846 | 49,777 |\n| 2025-10 | 1,181,433 | 50,379 |\n| 2025-11* | 436,259 | 50,633 |\n\n\\* November is partial, through `2025-11-13`.\n\n### 6-month total\n- **Business Day logins:** `6,142,336`\n- **Holiday logins:** `241,515`\n\n### Average per day in the period\n- **Business days:** `53,880` logins/day across `114` business days\n- **Holidays:** `48,303` logins/day across `5` holidays\n\n### Holidays included\n- 2025-06-19 \u2014 Juneteenth Day\n- 2025-07-04 \u2014 Independence Day\n- 2025-09-01 \u2014 Labor Day\n- 2025-10-13 \u2014 Indigenous Peoples Day\n- 2025-11-11 \u2014 Veterans Day\n\nNote: there were also `1,984,054` logins on **other non-business days** (primarily weekends), which I excluded from the business day vs holiday comparison.\n\nIf you want, I can also format this as a chart-ready table or include weekends as a third category.",
+                    "type": "output_text",
+                    "logprobs": []
+                }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+        }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [
+        {
+            "server_label": "unitus_sql_server_mcp",
+            "type": "mcp",
+            "allowed_tools": null,
+            "authorization": null,
+            "connector_id": null,
+            "defer_loading": null,
+            "headers": null,
+            "require_approval": "never",
+            "server_description": null,
+            "server_url": "https://shivani-sql-server-test.ngrok.app/sse"
+        }
+    ],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1776934344.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": "in_memory",
+    "reasoning": {
+        "effort": "medium",
+        "generate_summary": null,
+        "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+        "format": {
+            "type": "text"
+        },
+        "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+        "input_tokens": 8392,
+        "input_tokens_details": {
+            "cached_tokens": 0
+        },
+        "output_tokens": 4046,
+        "output_tokens_details": {
+            "reasoning_tokens": 867
+        },
+        "total_tokens": 12438
+    },
+    "user": null,
+    "billing": {
+        "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "moderation": null,
+    "presence_penalty": 0.0,
+    "store": true,
+    "Question_ID": 1,
+    "Server": "sql_server",
+    "Question_Text": "show number of login on business days vs holidays over the last 6 months"
+}
