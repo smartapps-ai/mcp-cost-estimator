@@ -3,10 +3,10 @@
 Estimates token usage and API cost for natural-language questions routed through a
 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server.
 
-The backend classifies each question by **domain**, **complexity**, and **intent** (using
-an OpenAI LLM or keyword fallback), then runs pre-trained linear regression models to
-predict token consumption across three database platforms: **SQL Server**, **Tursio**, and
-**Snowflake**.
+The backend classifies each question by **domain**, **complexity**, **intent**, **category**, **result_size**, and **answer_type** (using
+an OpenAI LLM or keyword fallback), then runs pre-trained regression models to
+predict token consumption across four database platforms: **SQL Server**, **Tursio**, and
+**Snowflake**, **Supabase**.
 
 ---
 
@@ -63,7 +63,7 @@ Run once before starting the server (or whenever you want to retrain):
 python train_model.py
 ```
 
-This writes `backend/models/{sql_server,tursio,snowflake}_model.joblib`.
+This writes `backend/models/{sql_server,tursio,snowflake,supabase}_model.joblib`.
 
 ### 4. Start the backend
 
@@ -82,7 +82,7 @@ npm install
 npm run dev
 ```
 
-The UI is available at `http://localhost:5173`. The Vite dev server proxies
+The UI is available at `http://localhost:5173`. The dev server proxies
 `/estimate` and `/health` requests to the backend automatically.
 
 ---
@@ -96,11 +96,11 @@ Request body:
 ```json
 {
   "question": "What is the total revenue by product category this quarter?",
-  "gpt_model": "gpt-4o"
+  "gpt_model": "gpt-5.4"
 }
 ```
 
-Valid `gpt_model` values: `gpt-5.4`, `gpt-4o`, `gpt-4-turbo`, `gpt-3.5-turbo`.
+Valid `gpt_model` values: `gpt-5.4`.
 
 Response:
 
@@ -129,7 +129,7 @@ Returns loaded model names and server status.
 
 ### Backend
 
-Set `OPENAI_API_KEY` in your environment (not in a committed file) and start with a
+Set `OPENAI_API_KEY` in your environment and start with a
 production ASGI server:
 
 ```bash
@@ -153,22 +153,28 @@ correct API endpoint.
 
 ## Feature Classification
 
-| Feature | Values |
-|---------|--------|
-| Domain | `banking`, `supply chain`, `healthcare`, `general` |
-| Complexity | `low`, `medium`, `high` |
-| Intent | `list`, `compare`, `analyze` |
+| Feature     | Values                                             |
+|-------------|----------------------------------------------------|
+| Domain      | `banking`, `supply chain`, `healthcare`, `general` |
+| Complexity  | `low`, `medium`, `high`                            |
+| Intent      | `list`, `compare`, `analyze`                       |
+| Category    | `direct`, `generic`                                |
+| Result_size | `small`, `medium`, `large`                         |
+| Answer_type | `single_number`, `list`, `chart`, `table`           |
 
-When `OPENAI_API_KEY` is set, `gpt-4o-mini` classifies each question. Otherwise a
+When `OPENAI_API_KEY` is set, the default OPENAI model classifies each question. Otherwise a
 keyword-matching fallback is used.
 
 ---
 
-## Token Pricing (per 1 000 tokens)
+## Input Token Pricing (per 1000000 tokens)
 
-| Model | Price |
-|-------|-------|
-| gpt-5.4 | $0.200 |
-| gpt-4o | $0.010 |
-| gpt-4-turbo | $0.020 |
-| gpt-3.5-turbo | $0.0015 |
+| Model | Price   |
+|-------|---------|
+| gpt-5.4 | $2.50   |
+
+## Output Token Pricing (per 1000000 tokens)
+
+| Model | Price  |
+|-------|--------|
+| gpt-5.4 | $15.00 |
